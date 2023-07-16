@@ -5,10 +5,10 @@ module.exports = {
     structure: new SlashCommandBuilder()
         .setName('avatar')
         .setDescription('Shows a user\'s avatar.')
-        .addMentionableOption( option =>
+        .addMentionableOption(option =>
             option.setName('user')
-            .setDescription('User to get the avatar from')
-            .setRequired(true)),
+                .setDescription('User to get the avatar from')
+                .setRequired(true)),
     /**
      * @param {ExtendedClient} client 
      * @param {ChatInputCommandInteraction} interaction 
@@ -28,9 +28,9 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`${targetUser.user.username}'s Avatar`)
                     .setImage(targetUser.displayAvatarURL(
-                        { size: 1024, extension: 'png'}
+                        { size: 1024, extension: 'png' }
                     ))
-                    .setFooter({ text: 'User Avatar'})
+                    .setFooter({ text: 'User Avatar' })
                     .setTimestamp()
             ]
         })
