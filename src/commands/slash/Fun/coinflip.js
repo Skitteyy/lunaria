@@ -15,7 +15,7 @@ module.exports = {
             .setComponents(
                 new ButtonBuilder()
                     .setCustomId('coinflip_button')
-                    .setLabel('Flip coin')
+                    .setLabel('Flip again')
                     .setStyle(ButtonStyle.Primary)
             );
 
@@ -34,6 +34,25 @@ module.exports = {
                     .setFooter({ text: 'Coin flip' })
                     .setTimestamp()
             ],
+            components: [ row ]
         });
+
+        const collector = interaction.channel.createMessageComponentCollector();
+
+        collector.on('collect', async interaction => {
+            if (interaction.customId === 'coinflip_button') {
+                let newAnswer = options[Math.floor(Math.random() * options.length)];
+                await interaction.update({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle('Coin flip')
+                            .setDescription(`${newAnswer}`)
+                            .setFooter({ text: 'Coin flip' })
+                            .setTimestamp()
+                    ],
+                    components: [ row ]
+                });
+            }
+        })
     }
 };
