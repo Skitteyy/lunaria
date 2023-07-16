@@ -3,16 +3,16 @@ const ExtendedClient = require('../../../class/ExtendedClient');
 
 module.exports = {
     structure: new SlashCommandBuilder()
-        .setName('ban')
-        .setDescription('Bans a user.')
+        .setName('kick')
+        .setDescription('Kicks a user.')
         .addMentionableOption(option =>
             option.setName('user')
-                .setDescription('User to ban')
+                .setDescription('User to kick')
                 .setRequired(true))
-                .addStringOption(option =>
-                    option.setName('reason')
-                        .setDescription('Ban reason')
-                        .setRequired(true)),
+        .addStringOption(option =>
+            option.setName('reason')
+                .setDescription('Kick reason')
+                .setRequired(true)),
     /**
      * @param {ExtendedClient} client 
      * @param {ChatInputCommandInteraction} interaction 
@@ -20,7 +20,7 @@ module.exports = {
      */
     run: async (client, interaction, args) => {
 
-        if (interaction.member.permissions.has(PermissionFlagsBits.BanMembers)) {
+        if (interaction.member.permissions.has(PermissionFlagsBits.KickMembers)) {
             const user = interaction.options.get('user').value;
             const reason = interaction.options.get('reason').value;
             const targetUser = await interaction.guild.members.fetch(user);
@@ -33,28 +33,28 @@ module.exports = {
 
             if (targetUserRolePos >= requestUserRolePos) {
                 await interaction.editReply({
-                    content: 'You can\'t ban that user because they have the same or higher role than you.'
+                    content: 'You can\'t kick that user because they have the same or higher role than you.'
                 })
                 return;
             }
 
             if (targetUserRolePos >= botRolePos) {
                 await interaction.editReply({
-                    content: 'I can\'t ban that user because they have the same or higher role than me.'
+                    content: 'I can\'t kick that user because they have the same or higher role than me.'
                 })
                 return;
             }
 
             if (!targetUser) {
                 await interaction.editReply({
-                    content: 'Please provide a valid user to ban.'
+                    content: 'Please provide a valid user to kick.'
                 })
                 return;
             }
 
             try {
                 await targetUser.send({
-                    content: `You have been banned from ${interaction.guild.name} for **${reason}**.`
+                    content: `You have been kicked from ${interaction.guild.name} for **${reason}**.`
                 });
 
                 await interaction.editReply({
@@ -62,11 +62,11 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle('Success!')
                             .setDescription(`${targetUser.user.username} has been banned for **${reason}**.`)
-                            .setFooter({ text: 'User Ban' })
+                            .setFooter({ text: 'User Kick' })
                             .setTimestamp()
                     ]
                 })
-                targetUser.ban(
+                targetUser.kick(
                     { reason: reason }
                 )
             } catch (error) {
