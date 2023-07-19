@@ -17,13 +17,15 @@ module.exports = {
         await interaction.deferReply();
 
         const mapIntCmds = client.applicationcommandsArray.map((v) => `\`/${v.name}\`: ${v.description}`);
+        const mapPreCmds = client.collection.prefixcommands.map((v) => `\`${prefix}${v.structure.name}\` (${v.structure.aliases.length > 0 ? v.structure.aliases.map((a) => `**${a}**`).join(', ') : 'None'}): ${v.structure.description || '[No description was provided]'}`);
 
         await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Help command')
                     .addFields(
-                        { name: 'Commands', value: `${mapIntCmds.join('\n')}` }
+                        { name: 'Commands', value: `${mapIntCmds.join('\n')}` },
+                        { name: 'Prefix commands', value: `${mapPreCmds.join('\n')}` }
                     )
             ]
         });

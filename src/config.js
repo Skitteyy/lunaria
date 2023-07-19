@@ -1,7 +1,7 @@
 module.exports = {
     client: {
-        token: '',
-        id: ''
+        token: 'MTEyMTAzNzM4OTQxOTI2MTk4NQ.GttnBU.opig7SQH96e3Mz8G_V2tnzn3sRinTNTw-PUN-g',
+        id: '1121037389419261985'
     },
     handler: {
         prefix: '*',
@@ -13,7 +13,7 @@ module.exports = {
             message: false
         },
         mongodb: {
-            uri: ''
+            uri: 'mongodb+srv://skittey:H9VSvc6ayDd7P5Ko@discordbot.uzwyegb.mongodb.net/'
         }
     }
 };
