@@ -1,6 +1,6 @@
 module.exports = {
     client: {
-        token: 'MTEyMTAzNzM4OTQxOTI2MTk4NQ.GcTNLU.TvrV1EomnLRYR4LL3AQIjC8TkozSEJMN0d9hug',
+        token: 'MTEyMTAzNzM4OTQxOTI2MTk4NQ.GttnBU.opig7SQH96e3Mz8G_V2tnzn3sRinTNTw-PUN-g',
         id: '1121037389419261985'
     },
     handler: {
