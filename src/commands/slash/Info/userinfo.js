@@ -36,8 +36,9 @@ module.exports = {
                         { name: 'User ID', value: `${targetUser.id}`},
                         { name: `Roles [${targetUser.roles.cache.size}]`, value: `${targetUser.roles.cache.map(role => role).join(", ")}`},
                     )
-                    .setFooter({ text: 'User Information'})
+                    .setFooter({ text: 'User Information' })
                     .setTimestamp()
+                    .setColor('#FFBEEF')
             ]
         })
     }

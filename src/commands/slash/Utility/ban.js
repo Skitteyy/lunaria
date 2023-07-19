@@ -64,6 +64,7 @@ module.exports = {
                             .setDescription(`${targetUser.user.username} has been banned for **${reason}**.`)
                             .setFooter({ text: 'User Ban' })
                             .setTimestamp()
+                            .setColor('#FFBEEF')
                     ]
                 })
                 targetUser.ban(
