@@ -1,7 +1,5 @@
 module.exports = {
     client: {
-        token: 'MTEyMTAzNzM4OTQxOTI2MTk4NQ.GGBqrk.4XPqM6lMFvthtQHq6H_zOvp1eJqH50k_jryaKc',
-        id: '1121037389419261985'
         token: '',
         id: ''
     },
