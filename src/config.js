@@ -9,8 +9,8 @@ module.exports = {
         commands: {
             prefix: true,
             slash: true,
-            user: false,
-            message: false
+            user: true,
+            message: true
         },
         mongodb: {
             uri: ''
