@@ -1,5 +1,5 @@
 const { Client, Partials, Collection } = require("discord.js");
-const config = require('../config');
+const config = require('../../config');
 const commands = require("../handlers/commands");
 const events = require("../handlers/events");
 const deploy = require("../handlers/deploy");

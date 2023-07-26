@@ -1,5 +1,5 @@
 const { ChannelType } = require('discord.js');
-const config = require('../../config');
+const config = require('../../../config');
 const { log } = require('../../functions');
 const GuildSchema = require('../../schemas/GuildSchema');
 const EconomySchema = require('../../schemas/EconomySchema');

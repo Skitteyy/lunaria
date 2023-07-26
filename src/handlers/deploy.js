@@ -1,6 +1,6 @@
 const { REST, Routes } = require("discord.js");
 const { log } = require("../functions");
-const config = require("../config");
+const config = require("../../config");
 
 module.exports = async (client) => {
     const rest = new REST({ version: '10' }).setToken(process.env.CLIENT_TOKEN || config.client.token);

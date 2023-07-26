@@ -2,7 +2,7 @@ const { EmbedBuilder, } = require('discord.js');
 require('dotenv').config();
 const ExtendedClient = require('./class/ExtendedClient');
 const GuildSchema = require('./schemas/GuildSchema');
-const config = require('./config');
+const config = require('../config');
 
 const client = new ExtendedClient();
 

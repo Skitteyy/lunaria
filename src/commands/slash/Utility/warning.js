@@ -1,6 +1,6 @@
 const { ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
-const config = require('../../../config');
+const config = require('../../../../config');
 const ModSchema = require('../../../schemas/ModSchema');
 const GuildSchema = require('../../../schemas/GuildSchema');
 

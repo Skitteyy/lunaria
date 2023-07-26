@@ -1,5 +1,5 @@
 const { connect } = require("mongoose");
-const config = require("../config");
+const config = require("../../config");
 const { log } = require("../functions");
 
 module.exports = async () => {
