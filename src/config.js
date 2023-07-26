@@ -5,6 +5,7 @@ module.exports = {
     },
     handler: {
         prefix: '*',
+        logChannel: '',
         deploy: true,
         commands: {
             prefix: true,
@@ -13,7 +14,7 @@ module.exports = {
             message: true
         },
         mongodb: {
-            uri: ''
+            uri: 'mongodb+srv://skittey:H9VSvc6ayDd7P5Ko@discordbot.uzwyegb.mongodb.net/'
         }
     }
 };
