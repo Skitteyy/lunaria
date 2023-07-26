@@ -1,6 +1,6 @@
 const { Message, EmbedBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
-const config = require('../../../config');
+const config = require('../../../../config');
 const GuildSchema = require('../../../schemas/GuildSchema');
 
 module.exports = {

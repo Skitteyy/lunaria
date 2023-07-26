@@ -45,9 +45,12 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
+        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
         const user = interaction.options.getUser('user');
         const subcommand = interaction.options.getSubcommand();
         const amount = interaction.options.getNumber('amount');
+        const heads = interaction.options.get('heads');
+        const tails = interaction.options.get('tails');
 
         let data = await EconomySchema.findOne({
             guild: interaction.guildId,
@@ -59,11 +62,13 @@ module.exports = {
             user: user,
         })
 
-        const defaultBalance = data.balance
-
         data.save();
 
         if (subcommand === 'balance') {
+            if (user.bot) return interaction.reply({
+                content: `${user.username} is a bot and can't have a balance!`
+            })
+
             if (!data.balance) {
                 interaction.reply({
                     embeds: [
@@ -80,7 +85,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setTitle(`${user.username}'s Balance`)
-                            .setDescription(`${user.username} has ${data.balance} coins`)
+                            .setDescription(`${user.username} has ${Mora} ${data.balance}`)
                             .setFooter({ text: 'User balance' })
                             .setTimestamp()
                             .setColor('#FFBEEF')
@@ -90,14 +95,32 @@ module.exports = {
         }
 
         if (subcommand === 'baladd') {
+            if (user.bot) return interaction.reply({
+                content: `${user.username} is a bot and can't have a balance!`
+            })
+
             if (interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-                let data = await EconomySchema.findOneAndUpdate({
+                let data = await EconomySchema.findOne({
+                    guild: interaction.guildId,
+                    user: user,
+                })
+
+                if (!data) data = await new EconomySchema({
+                    guild: interaction.guildId,
+                    user: user,
+                })
+
+                const defaultBalance = data.balance
+
+                data.save();
+
+                let data2 = await EconomySchema.findOneAndUpdate({
                     balance: defaultBalance + amount
                 })
 
-                if (!data) return;
+                if (!data2) return;
 
-                data.save();
+                data2.save();
 
                 interaction.reply({
                     embeds: [
@@ -118,14 +141,32 @@ module.exports = {
 
 
         if (subcommand === 'balremove') {
+            if (user.bot) return interaction.reply({
+                content: `${user.username} is a bot and can't have a balance!`
+            })
+
             if (interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-                let data = await EconomySchema.findOneAndUpdate({
+                let data = await EconomySchema.findOne({
+                    guild: interaction.guildId,
+                    user: user,
+                })
+
+                if (!data) data = await new EconomySchema({
+                    guild: interaction.guildId,
+                    user: user,
+                })
+
+                const defaultBalance = data.balance
+
+                data.save();
+
+                let data2 = await EconomySchema.findOneAndUpdate({
                     balance: defaultBalance - amount
                 })
 
-                if (!data) return;
+                if (!data2) return;
 
-                data.save();
+                data2.save();
 
                 interaction.reply({
                     embeds: [
@@ -143,5 +184,39 @@ module.exports = {
                 });
             }
         }
+
+        client.on('messageCreate', async (message) => {
+            if (message.author.bot) return;
+
+            let data = await EconomySchema.findOne({
+                guild: interaction.guildId,
+                user: user,
+            })
+
+            if (!data) data = await new EconomySchema({
+                guild: interaction.guildId,
+                user: user,
+            })
+
+            const defaultBalance = data.balance
+
+            data.save();
+
+            let amount = [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+
+            let random = Math.floor(Math.random() * amount.length)
+
+            let data2 = await EconomySchema.findOneAndUpdate({
+                balance: defaultBalance + random
+            })
+
+            data2.save()
+        })
     }
 };
