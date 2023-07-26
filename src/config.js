@@ -14,7 +14,7 @@ module.exports = {
             message: true
         },
         mongodb: {
-            uri: 'mongodb+srv://skittey:H9VSvc6ayDd7P5Ko@discordbot.uzwyegb.mongodb.net/'
+            uri: ''
         }
     }
 };
