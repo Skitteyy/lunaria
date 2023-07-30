@@ -27,6 +27,8 @@ client.on('messageDelete', async (message) => {
         return;
     }
 
+    if (message.author.bot) return;
+
     await channel.send({
         embeds: [
             new EmbedBuilder()

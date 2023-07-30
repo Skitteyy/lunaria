@@ -9,10 +9,10 @@ module.exports = {
             option.setName('user')
                 .setDescription('User to ban')
                 .setRequired(true))
-                .addStringOption(option =>
-                    option.setName('reason')
-                        .setDescription('Ban reason')
-                        .setRequired(true)),
+        .addStringOption(option =>
+            option.setName('reason')
+                .setDescription('Ban reason')
+                .setRequired(true)),
     /**
      * @param {ExtendedClient} client 
      * @param {ChatInputCommandInteraction} interaction 
@@ -53,9 +53,11 @@ module.exports = {
             }
 
             try {
-                await targetUser.send({
-                    content: `You have been banned from ${interaction.guild.name} for **${reason}**.`
-                });
+                if (!targetUser.user.bot) {
+                    await targetUser.send({
+                        content: `You have been banned from ${interaction.guild.name} for **${reason}**.`
+                    });
+                }
 
                 await interaction.editReply({
                     embeds: [
