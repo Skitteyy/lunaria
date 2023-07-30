@@ -1,4 +1,5 @@
 const { model, Schema } = require('mongoose');
+const { Types } = require('mongoose');
 
 module.exports = model('EconomySchema',
     new Schema({

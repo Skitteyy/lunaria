@@ -53,23 +53,27 @@ module.exports = {
             }
 
             try {
-                await targetUser.send({
-                    content: `You have been kicked from ${interaction.guild.name} for **${reason}**.`
-                });
+                if (!targetUser.user.bot) {
+                    await targetUser.send({
+                        content: `You have been kicked from ${interaction.guild.name} for **${reason}**.`
+                    });
+                }
 
                 await interaction.editReply({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Success!')
-                            .setDescription(`${targetUser.user.username} has been banned for **${reason}**.`)
+                            .setDescription(`${targetUser.user.username} has been kicked for **${reason}**.`)
                             .setFooter({ text: 'User Kick' })
                             .setTimestamp()
                             .setColor('#FFBEEF')
                     ]
                 })
+
                 targetUser.kick(
                     { reason: reason }
                 )
+
             } catch (error) {
                 console.log(error)
             }
