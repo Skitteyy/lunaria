@@ -1,8 +1,9 @@
-const { EmbedBuilder, } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const GuildSchema = require('./schemas/GuildSchema');
+
+
 require('dotenv').config();
 const ExtendedClient = require('./class/ExtendedClient');
-const GuildSchema = require('./schemas/GuildSchema');
-const config = require('../config');
 
 const client = new ExtendedClient();
 
@@ -22,27 +23,38 @@ client.on('messageDelete', async (message) => {
 
     if (message.channel === channel) return;
 
-    if (!channel) {
-        console.log(`${data.guild} does not have a logs channel.`)
-        return;
-    }
+    if (!channel) return;
 
     if (message.author.bot) return;
 
-    await channel.send({
-        embeds: [
-            new EmbedBuilder()
-                .setTitle('Message Deleted')
-                .addFields(
-                    { name: 'Author', value: `<@${message.member.user.id}>` },
-                    { name: 'Channel', value: `<#${message.channelId}>` },
-                    { name: 'Message content', value: `"${message.content}"` }
-                )
-                .setFooter({ text: `Message deletion` })
-                .setTimestamp()
-                .setColor('#FFBEEF')
-        ]
-    })
+    if (message.content || message.attachments.size > 0) {
+        const embed = new EmbedBuilder()
+            .setTitle('Message deleted')
+            .addFields(
+                { name: 'Author', value: `<@${message.member.user.id}>` },
+                { name: 'Channel', value: `<#${message.channelId}>` }
+            )
+            .setFooter({ text: `Message deletion` })
+            .setTimestamp()
+            .setColor('Red')
+
+        if (message.content) {
+            embed.addFields(
+                { name: 'Message', value: `"${message.content}"` }
+            )
+        }
+
+        if (message.attachments.size > 0) {
+            const attachment = message.attachments.map(attachment => attachment.url)
+            embed.addFields(
+                { name: 'Media', value: `"${attachment.join('", "')}"` }
+            )
+        }
+
+        await channel.send({
+            embeds: [embed]
+        })
+    }
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {
@@ -56,26 +68,24 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 
     if (newMessage.channel === channel) return;
 
-    if (!channel) {
-        console.log(`${data.guild} does not have a logs channel.`)
-        return;
-    }
+    if (!channel) return;
 
     if (oldMessage.author.bot || newMessage.author.bot) return;
 
     await channel.send({
         embeds: [
             new EmbedBuilder()
-                .setTitle('Message Edited')
+                .setTitle('Message edited')
                 .addFields(
                     { name: 'Author', value: `<@${newMessage.member.user.id}>` },
                     { name: 'Channel', value: `<#${newMessage.channelId}>` },
+                    { name: 'Message ID', value: `${oldMessage.id}`},
                     { name: 'Before:', value: `"${oldMessage.content}"` },
                     { name: 'After:', value: `"${newMessage.content}"` }
                 )
                 .setFooter({ text: `Message edit` })
                 .setTimestamp()
-                .setColor('#FFBEEF')
+                .setColor('Blue')
         ]
     })
 });
@@ -93,23 +103,19 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
         oldMember.roles.cache.forEach(role => {
             if (!newMember.roles.cache.has(role.id)) {
 
-                if (!channel) {
-                    console.log(`${data.guild} does not have a logs channel.`)
-                    return;
-                }
-
+                if (!channel) return;
 
                 channel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setTitle('Role Updated')
+                            .setTitle('Role updated')
                             .addFields(
                                 { name: 'Member', value: `<@${newMember.user.id}>` },
                                 { name: 'Role removed:', value: `${role}` }
                             )
-                            .setFooter({ text: `Role update` })
+                            .setFooter({ iconURL: `${oldMember.displayAvatarURL()}`, text: `${oldMember.user.username}` })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('Red')
                     ]
                 });
             }
@@ -118,26 +124,100 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
         newMember.roles.cache.forEach(role => {
             if (!oldMember.roles.cache.has(role.id)) {
 
-                if (!channel) {
-                    console.log(`${data.guild} does not have a logs channel.`)
-                    return;
-                }
+                if (!channel) return;
 
-                
                 channel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setTitle('Role Updated')
+                            .setTitle('Role updated')
                             .addFields(
                                 { name: 'Member', value: `<@${newMember.user.id}>` },
                                 { name: 'Role added:', value: `${role}` }
                             )
-                            .setFooter({ text: `Role update` })
+                            .setFooter({ iconURL: `${oldMember.displayAvatarURL()}`, text: `${oldMember.user.username}` })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('Green')
                     ]
                 });
             }
         })
     }
+
+    if (oldMember.nickname !== newMember.nickname) {
+        if (!channel) return;
+
+        channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('Nickname updated')
+                    .addFields(
+                        { name: 'Old Nickname:', value: `${oldMember.nickname || oldMember.user}` },
+                        { name: 'New Nickname:', value: `${newMember.nickname || newMember.user}` }
+                    )
+                    .setFooter({ iconURL: `${oldMember.displayAvatarURL()}`, text: `${oldMember.user.username}` })
+                    .setTimestamp()
+                    .setColor('Green')
+            ]
+        });
+    }
+});
+
+client.on('guildMemberRemove', async member => {
+    let data = await GuildSchema.findOne({ guild: member.guild.id });
+
+    if (!data) data = new GuildSchema({
+        guild: member.guild.id
+    });
+
+    const channel = member.guild.channels.cache.get(data.logChannel);
+
+    if (!channel) return;
+
+    await channel.send({
+        embeds: [
+            new EmbedBuilder()
+                .setTitle('Member left')
+                .setThumbnail(member.displayAvatarURL({
+                    size: 1024
+                }))
+                .addFields(
+                    { name: 'Member', value: `<@${member.user.id}> (${member.user.tag})` },
+                    { name: 'Joined on', value: `${member.joinedAt.toDateString()}` },
+                    { name: 'Created on', value: `${member.user.createdAt.toDateString()}` },
+                    { name: `Roles [${member.roles.cache.size}]`, value: `${member.roles.cache.map(role => role).join(", ")}` }
+                )
+                .setFooter({ iconURL: `${member.displayAvatarURL()}`, text: `${member.user.username}` })
+                .setTimestamp()
+                .setColor('Red')
+        ]
+    })
+});
+
+client.on('guildMemberAdd', async member => {
+    let data = await GuildSchema.findOne({ guild: member.guild.id });
+
+    if (!data) data = new GuildSchema({
+        guild: member.guild.id
+    });
+
+    const channel = member.guild.channels.cache.get(data.logChannel);
+
+    if (!channel) return;
+
+    await channel.send({
+        embeds: [
+            new EmbedBuilder()
+                .setTitle('Member joined')
+                .setThumbnail(member.displayAvatarURL({
+                    size: 1024
+                }))
+                .addFields(
+                    { name: 'Member', value: `<@${member.user.id}> (${member.user.tag})` },
+                    { name: 'Created on', value: `${member.user.createdAt.toDateString()}` }
+                )
+                .setFooter({ iconURL: `${member.displayAvatarURL()}`, text: `${member.user.username}` })
+                .setTimestamp()
+                .setColor('Green')
+        ]
+    })
 });

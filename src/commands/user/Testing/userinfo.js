@@ -11,10 +11,6 @@ module.exports = {
      */
     run: async (client, interaction) => {
         await interaction.reply({
-            content: `Here is some Information about ${interaction.targetMember.user.username}!`
-        });
-
-        await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`${interaction.targetMember.user.username}`)

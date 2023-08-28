@@ -20,15 +20,11 @@ module.exports = {
         const targetUser = await interaction.guild.members.fetch(user);
 
         await interaction.reply({
-            content: `Here is ${targetUser.user.username}'s avatar!`
-        });
-
-        await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`${targetUser.user.username}'s Avatar`)
                     .setImage(targetUser.displayAvatarURL(
-                        { size: 1024, extension: 'png' }
+                        { size: 1024 }
                     ))
                     .setFooter({ text: 'User Avatar' })
                     .setTimestamp()

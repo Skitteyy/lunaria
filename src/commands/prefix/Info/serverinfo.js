@@ -20,7 +20,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle(`${message.guild.name}`)
                     .setThumbnail(message.guild.iconURL(
-                        { size: 256, extension: 'png' }
+                        { size: 256 }
                     ))
                     .addFields(
                         { name: 'Owner', value: `<@${message.guild.ownerId}>` },

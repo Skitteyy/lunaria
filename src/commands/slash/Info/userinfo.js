@@ -20,15 +20,11 @@ module.exports = {
         const targetUser = await interaction.guild.members.fetch(user);
 
         await interaction.reply({
-            content: `Here is some Information about ${targetUser.user.username}!`
-        });
-
-        await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`${targetUser.user.username}`)
                     .setThumbnail(targetUser.displayAvatarURL(
-                        { size: 256, extension: 'png'}
+                        { size: 256 }
                     ))
                     .addFields(
                         { name: 'Joined Discord on', value: `${targetUser.user.createdAt.toDateString()}`},

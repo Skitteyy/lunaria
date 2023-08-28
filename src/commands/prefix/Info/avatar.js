@@ -22,7 +22,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`${mention.user.username}'s Avatar`)
                         .setImage(mention.displayAvatarURL(
-                            { size: 1024, extension: 'png' }
+                            { size: 1024 }
                         ))
                         .setFooter({ text: 'User Avatar' })
                         .setTimestamp()
@@ -35,7 +35,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`${message.member.user.username}'s Avatar`)
                         .setImage(message.member.displayAvatarURL(
-                            { size: 1024, extension: 'png' }
+                            { size: 1024 }
                         ))
                         .setFooter({ text: 'User Avatar' })
                         .setTimestamp()

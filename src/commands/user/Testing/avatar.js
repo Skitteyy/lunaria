@@ -11,10 +11,6 @@ module.exports = {
      */
     run: async (client, interaction) => {
         await interaction.reply({
-            content: `Here is ${interaction.targetMember.user.username}'s avatar!`
-        });
-
-        await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`${interaction.targetMember.user.username}'s Avatar`)
