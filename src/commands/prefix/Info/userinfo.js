@@ -22,7 +22,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`${mention.user.username}`)
                         .setThumbnail(mention.displayAvatarURL(
-                            { size: 256, extension: 'png'}
+                            { size: 256 }
                         ))
                         .addFields(
                             { name: 'Joined Discord on', value: `${mention.user.createdAt.toDateString()}`},
@@ -41,7 +41,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(`${message.member.user.username}`)
                         .setThumbnail(message.member.displayAvatarURL(
-                            { size: 256, extension: 'png' }
+                            { size: 256 }
                         ))
                         .addFields(
                             { name: 'Joined Discord on', value: `${message.member.user.createdAt.toDateString()}` },

@@ -11,17 +11,12 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
-
         await interaction.reply({
-            content: 'Here is some Information about this server!'
-        });
-
-        await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`${interaction.guild.name}`)
                     .setThumbnail(interaction.guild.iconURL(
-                        { size: 256, extension: 'png'}
+                        { size: 256 }
                     ))
                     .addFields(
                         { name: 'Owner', value: `<@${interaction.guild.ownerId}>`},

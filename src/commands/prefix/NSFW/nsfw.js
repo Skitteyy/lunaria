@@ -18,35 +18,39 @@ module.exports = {
             if (args[0]) {
 
                 if (!args[1]) {
-                    booru.search('db', [`${args[0]}`], { limit: 1, random: true })
+                    booru.search('db', [`${args[0]}`], { limit: 99999 })
                         .then(async images => {
-                            for (let image of images) {
-                                let embed = new EmbedBuilder()
-                                    .setTitle('Custom Search')
-                                    .setDescription(`Tags searched: ${args[0]}`)
-                                    .setImage(image.file_url)
+                            const random = Math.floor(Math.random() * images.posts.length);
+                            let image = images.posts[random];
 
-                                await message.channel.send({
-                                    embeds: [embed]
-                                })
-                            }
-                        })
-                }
-
-                if (args[1]) {
-                    const search = booru.search('db', [`${args[0]}`, `${args[1]}`], { limit: 100 })
-                        .then(async images => {
-                            const random = Math.floor(Math.random() * 100)
                             let embed = new EmbedBuilder()
                                 .setTitle('Custom Search')
-                                .setDescription(`Tags searched: ${args[0]}, ${args[1]}`)
-                                .setImage(images.posts[random].file_url)
+                                .setDescription(`${image.postView}`)
+                                .setImage(image.file_url)
+                                .setFooter({ text: `Tags searched: ${args[0]}` })
 
                             await message.channel.send({
                                 embeds: [embed]
                             })
                         })
+                }
 
+                if (args[1]) {
+                    booru.search('db', [`${args[0]}`, `${args[1]}`], { limit: 99999 })
+                        .then(async images => {
+                            const random = Math.floor(Math.random() * images.posts.length);
+                            let image = images.posts[random];
+
+                            let embed = new EmbedBuilder()
+                                .setTitle('Custom Search')
+                                .setDescription(`${image.postView}`)
+                                .setImage(image.file_url)
+                                .setFooter({ text: `Tags searched: ${args[0]}, ${args[1]}` })
+
+                            await message.channel.send({
+                                embeds: [embed]
+                            })
+                        })
                 }
             }
         } else {
