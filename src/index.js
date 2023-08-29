@@ -27,7 +27,7 @@ client.on('messageCreate', async (message) => {
 
     if (!economy) return;
 
-    const randomAmount = 500 + Math.floor(Math.random() * 1001);
+    const randomAmount = Math.floor(Math.random() * 10) + 1;
 
     const updatedBalance = balance + randomAmount;
 
