@@ -81,24 +81,32 @@ module.exports = {
                         $exists: true
                     }
                 });
-                
-                const sorted = users.sort((a, b) => {
-                    return b.balance - a.balance;
-                }).slice(0, 10);
-                
-                const list = sorted.map((user, index) => {
-                    return `${index + 1}. ${user.user}: ${user.balance} ${Mora}`;
-                }).join('\n');
-                
-                let embed = new EmbedBuilder()
-                    .setTitle(`${interaction.guild.name} Leaderboard`)
-                    .setDescription(list)
-                    .setFooter({ text: 'Server Leaderboard' })
-                    .setColor('#FFBEEF')
 
-                return interaction.reply({
-                    embeds: [embed]
-                })
+                if (users) {
+
+                    const sorted = users.sort((a, b) => {
+                        return b.balance - a.balance;
+                    }).slice(0, 10);
+
+                    const list = sorted.map((user, index) => {
+                        return `${index + 1}. ${user.user}: ${user.balance} ${Mora}`;
+                    }).join('\n');
+
+                    let embed = new EmbedBuilder()
+                        .setTitle(`${interaction.guild.name} Leaderboard`)
+                        .setDescription(list)
+                        .setFooter({ text: 'Server Leaderboard' })
+                        .setColor('#FFBEEF')
+
+                    return interaction.reply({
+                        embeds: [embed]
+                    })
+                } else {
+                    interaction.reply({
+                        content: 'This server does not have a leaderboard yet. Users have to create accounts first using ```economy create```'
+                    })
+                    return;
+                }
             }
         }
     }
