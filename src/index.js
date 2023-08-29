@@ -1,5 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
 const GuildSchema = require('./schemas/GuildSchema');
+const EconomySchema = require('./schemas/EconomySchema');
+
+var cooldown = [];
 
 
 require('dotenv').config();
@@ -11,6 +14,35 @@ client.start();
 
 process.on('unhandledRejection', console.error);
 process.on('uncaughtException', console.error);
+
+client.on('messageCreate', async (message) => {
+    let economy = await EconomySchema.findOne({
+        guild: message.guildId,
+        user: message.author.username
+    });
+
+    let balance = economy.balance;
+
+    if (cooldown.includes(message.author.id)) return;
+
+    if (!economy) return;
+
+    const randomAmount = 500 + Math.floor(Math.random() * 1001);
+
+    const updatedBalance = balance + randomAmount;
+
+    await EconomySchema.find({
+        guild: message.guildId,
+        user: message.author.username
+    }).updateOne({
+        balance: updatedBalance
+    })
+
+    cooldown.push(interaction.member.user.id);
+    setTimeout(() => {
+        cooldown.shift();
+    }, 30 * 1000);
+});
 
 client.on('messageDelete', async (message) => {
     let data = await GuildSchema.findOne({ guild: message.guildId });
@@ -79,7 +111,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
                 .addFields(
                     { name: 'Author', value: `<@${newMessage.member.user.id}>` },
                     { name: 'Channel', value: `<#${newMessage.channelId}>` },
-                    { name: 'Message ID', value: `${oldMessage.id}`},
+                    { name: 'Message ID', value: `${oldMessage.id}` },
                     { name: 'Before:', value: `"${oldMessage.content}"` },
                     { name: 'After:', value: `"${newMessage.content}"` }
                 )
