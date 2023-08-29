@@ -44,98 +44,124 @@ module.exports = {
 
         let daily = await TimeSchema.findOne({
             guild: interaction.guildId,
-            user: interaction.user.username
+            user: interaction.user.username,
+            lastDaily: {
+                $exists: true
+            },
+            nextDaily: {
+                $exists: true
+            }
         });
-
-        if (!daily) {
-            daily = new TimeSchema({
-                guild: interaction.guildId,
-                user: interaction.user.username,
-                lastDaily: currentDate,
-                nextDaily: nextDailyDate
-            });
-            await daily.save();
-        }
 
         switch (interaction.options.getString('action')) {
             case 'claim': {
-                if (!daily || daily.lastDaily.toISOString() !== currentDate.toISOString()) {
-                    let embed = new EmbedBuilder()
-                        .setTitle(`Daily Mora`)
-                        .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
-                        .setFooter({ text: 'Daily claim' })
-                        .setColor('#FFBEEF')
-                        .setTimestamp();
+                if (daily) {
+                    if (daily.lastDaily.toISOString() !== currentDate.toISOString()) {
+                        let embed = new EmbedBuilder()
+                            .setTitle(`Daily Mora`)
+                            .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
+                            .setFooter({ text: 'Daily claim' })
+                            .setColor('#FFBEEF')
+                            .setTimestamp();
 
-                    interaction.reply({
-                        embeds: [embed]
-                    });
+                        interaction.reply({
+                            embeds: [embed]
+                        });
 
-                    await EconomySchema.find({
-                        guild: interaction.guildId,
-                        user: interaction.user.username
-                    }).updateOne({
-                        balance: balance + 5000
-                    })
+                        await EconomySchema.find({
+                            guild: interaction.guildId,
+                            user: interaction.user.username
+                        }).updateOne({
+                            balance: balance + 5000
+                        })
 
-                    await TimeSchema.findOneAndUpdate(
-                        { guild: interaction.guildId, user: interaction.user.username },
-                        { lastDaily: currentDate, nextDaily: nextDailyDate }
-                    );
+                        await TimeSchema.findOneAndUpdate(
+                            { guild: interaction.guildId, user: interaction.user.username },
+                            { lastDaily: currentDate, nextDaily: nextDailyDate }
+                        );
 
-                    return;
+                        return;
+                    } else {
+                        let embed = new EmbedBuilder()
+                            .setTitle(`Daily Mora`)
+                            .setDescription(`You already claimed your daily Mora ${Mora} today. Use \`\`\`/daily check\`\`\` to see when you can claim it next.`)
+                            .setFooter({ text: 'Daily claim' })
+                            .setColor('#FFBEEF')
+                            .setTimestamp();
+
+                        interaction.reply({
+                            embeds: [embed]
+                        });
+
+                        return;
+                    }
                 } else {
-                    let embed = new EmbedBuilder()
-                        .setTitle(`Daily Mora`)
-                        .setDescription(`You already claimed your daily Mora ${Mora} today. Use \`\`\`/daily check\`\`\` to see when you can claim it next.`)
-                        .setFooter({ text: 'Daily claim' })
-                        .setColor('#FFBEEF')
-                        .setTimestamp();
-
-                    interaction.reply({
-                        embeds: [embed]
+                    daily = new TimeSchema({
+                        guild: interaction.guildId,
+                        user: interaction.user.username,
+                        lastDaily: currentDate,
+                        nextDaily: nextDailyDate
                     });
+                    await daily.save();
 
+                    await interaction.reply({
+                        content: `An error occured. Please try again.`
+                    })
                     return;
                 }
             }
 
             case 'check': {
-                if (!daily || daily.lastDaily.toISOString() !== currentDate.toISOString()) {
-                    let embed = new EmbedBuilder()
-                        .setTitle(`Daily Mora`)
-                        .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
-                        .setFooter({ text: 'Daily check' })
-                        .setColor('#FFBEEF')
-                        .setTimestamp();
+                if (daily) {
+                    if (daily.lastDaily.toISOString() !== currentDate.toISOString()) {
+                        let embed = new EmbedBuilder()
+                            .setTitle(`Daily Mora`)
+                            .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
+                            .setFooter({ text: 'Daily check' })
+                            .setColor('#FFBEEF')
+                            .setTimestamp();
 
-                    interaction.reply({
-                        embeds: [embed]
-                    });
+                        interaction.reply({
+                            embeds: [embed]
+                        });
 
-                    return;
+                        return;
+                    } else {
+                        const nextDailyTime = new Date(daily.nextDaily);
+                        const botTime = new Date();
+
+                        const duration = Math.floor((nextDailyTime - botTime) / 1000);
+
+                        const hours = Math.floor(duration / 3600);
+                        const minutes = Math.floor((duration % 3600) / 60);
+                        const seconds = duration % 60;
+                        const remainingTime = `${hours}h ${minutes}m ${seconds}s`
+
+                        let embed = new EmbedBuilder()
+                            .setTitle(`Daily Mora`)
+                            .setDescription(`Your daily Mora ${Mora} can be claimed again in ${remainingTime}.`)
+                            .setFooter({ text: 'Daily check' })
+                            .setColor('#FFBEEF')
+                            .setTimestamp();
+
+                        interaction.reply({
+                            embeds: [embed]
+                        });
+
+                        return;
+                    }
                 } else {
-                    const nextDailyTime = new Date(daily.nextDaily);
-                    const botTime = new Date();
-
-                    const duration = Math.floor((nextDailyTime - botTime) / 1000);
-
-                    const hours = Math.floor(duration / 3600);
-                    const minutes = Math.floor((duration % 3600) / 60);
-                    const seconds = duration % 60;
-                    const remainingTime = `${hours}h ${minutes}m ${seconds}s`
-
-                    let embed = new EmbedBuilder()
-                        .setTitle(`Daily Mora`)
-                        .setDescription(`Your daily Mora ${Mora} can be claimed again in ${remainingTime}.`)
-                        .setFooter({ text: 'Daily check' })
-                        .setColor('#FFBEEF')
-                        .setTimestamp();
-
-                    interaction.reply({
-                        embeds: [embed]
+                    daily = new TimeSchema({
+                        guild: interaction.guildId,
+                        user: interaction.user.username,
+                        lastDaily: currentDate,
+                        nextDaily: nextDailyDate
                     });
+                    await daily.save();
 
+                    await interaction.reply({
+                        content: `An error occured. Please try again.`
+                    })
                     return;
                 }
             }
