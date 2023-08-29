@@ -21,11 +21,21 @@ client.on('messageCreate', async (message) => {
         user: message.author.username
     });
 
-    let balance = economy.balance;
+    const getBalance = await EconomySchema.find({
+        guild: message.guildId,
+        user: message.author.username,
+        balance: {
+            $exists: true
+        }
+    });
+
+    const balance = getBalance.map(doc => doc.balance)
 
     if (cooldown.includes(message.author.id)) return;
 
     if (!economy) return;
+
+    if (!balance) return;
 
     const randomAmount = Math.floor(Math.random() * 10) + 1;
 
@@ -38,7 +48,7 @@ client.on('messageCreate', async (message) => {
         balance: updatedBalance
     })
 
-    cooldown.push(interaction.member.user.id);
+    cooldown.push(message.author.id);
     setTimeout(() => {
         cooldown.shift();
     }, 30 * 1000);
