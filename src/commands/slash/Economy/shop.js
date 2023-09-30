@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ComponentType, MentionableSelectMenuBuilder, } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ComponentType, } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
 const EconomySchema = require('../../../schemas/EconomySchema');
 
@@ -11,7 +11,8 @@ module.exports = {
                 .setDescription('choose an action')
                 .addChoices(
                     { name: 'list', value: 'list' },
-                    { name: 'buy', value: 'buy' }
+                    { name: 'buy', value: 'buy' },
+                    { name: 'sell', value: 'sell' }
                 )
                 .setRequired(true)),
     /**
@@ -40,7 +41,9 @@ module.exports = {
                         .addFields(
                             { name: 'Fishing Rod', value: `A tool used by fishermen to catch fish. Price: 300 Mora ${Mora}` },
                             { name: 'Shovel', value: `A tool used by archeologists to dig up relics. Price: 300 Mora ${Mora}` },
-                            { name: 'Axe', value: `A tool used by hunters to hunt wildlife. Price: 300 Mora ${Mora}` }
+                            { name: 'Axe', value: `A tool used by hunters to hunt wildlife. Price: 300 Mora ${Mora}` },
+                            { name: 'Paint Brush', value: `A tool used by artists to draw paintings. Price: 300 Mora ${Mora}` },
+                            { name: 'Computer', value: `A tool used by streamers to stream stuff on the internet. Price: 300 Mora ${Mora}` }
                         )
                         .setFooter({ text: 'Items list' })
                         .setColor('#FFBEEF');
@@ -62,17 +65,19 @@ module.exports = {
                     const choices = [
                         'fishing rod',
                         'shovel',
-                        'axe'
+                        'axe',
+                        'paint brush',
+                        'computer'
                     ]
 
                     let embed = new EmbedBuilder()
                         .setTitle(`Select an item to buy`)
                         .setDescription('Please select an item.')
-                        .setFooter({ text: 'Job info' })
+                        .setFooter({ text: 'Shop buy' })
                         .setColor('#FFBEEF');
 
                     const selectMenu = new StringSelectMenuBuilder()
-                        .setCustomId('items')
+                        .setCustomId('itembuy')
                         .setPlaceholder('select an item')
                         .addOptions(choices.map(choice => ({
                             label: choice,
@@ -97,15 +102,26 @@ module.exports = {
                     })
 
                     collector.on('collect', async (option) => {
-                        const jobList = await EconomySchema.find({
-                            guild: interaction.guildId,
-                            user: interaction.user.username,
-                            job: {
-                                $exists: true
-                            }
-                        })
+                        const job = economy.job;
 
-                        const job = jobList.map(doc => doc.job);
+                        function jobItem(job) {
+                            switch (job) {
+                                case 'fisherman':
+                                    return 'fishing rod';
+                                case 'archeologist':
+                                    return 'shovel';
+                                case 'hunter':
+                                    return 'axe';
+                                case 'artist':
+                                    return 'paint brush';
+                                case 'streamer':
+                                    return 'computer';
+                                default:
+                                    return null;
+                            }
+                        }
+
+                        const buyItem = jobItem(job)
 
                         const choice = option.values[0];
 
@@ -126,97 +142,119 @@ module.exports = {
                             components: []
                         })
 
-                        if (job.includes('fisherman')) {
-                            if (!choice.includes('fishing rod')) {
-                                interaction.editReply({
-                                    content: `You are working as a fisherman and can only buy a fishing rod.`,
-                                    embeds: [],
-                                    components: []
-                                })
-                                return;
-                            }
-
-                            await EconomySchema.find({
-                                guild: interaction.guildId,
-                                user: interaction.user.username,
-                                job: 'fisherman'
-                            }).updateOne({
-                                balance: economy.balance - 300,
-                                $push: {
-                                    items: choice
-                                }
-                            })
-
-                            await interaction.followUp({
-                                content: `You have successfully bought 1 ${choice} for 300 Mora ${Mora}!`,
+                        if (choice !== buyItem) {
+                            await interaction.editReply({
+                                content: `You are working as a ${job} and can only buy a ${buyItem}.`,
                                 embeds: [],
                                 components: []
                             });
                             return;
                         }
 
-                        if (job.includes('archeologist')) {
-                            if (!choice.includes('shovel')) {
-                                interaction.editReply({
-                                    content: `You are working as an archeologist and can only buy a shovel.`,
-                                    embeds: [],
-                                    components: []
-                                })
-                                return;
-                            }
-
-                            await EconomySchema.find({
+                        await EconomySchema.findOneAndUpdate(
+                            {
                                 guild: interaction.guildId,
-                                user: interaction.user.username,
-                                job: 'archeologist'
-                            }).updateOne({
-                                balance: economy.balance - 300,
+                                user: interaction.member.user.username,
+                                job: economy.job
+                            },
+                            {
                                 $push: {
-                                    items: choice
-                                }
-                            })
-
-                            await interaction.followUp({
-                                content: `You have successfully bought 1 ${choice} for 300 Mora ${Mora}!`,
-                                embeds: [],
-                                components: []
-                            });
-                            return;
-                        }
-
-                        if (job.includes('hunter')) {
-                            if (!choice.includes('axe')) {
-                                interaction.editReply({
-                                    content: `You are working as a hunter and can only buy an axe.`,
-                                    embeds: [],
-                                    components: []
-                                })
-                                return;
+                                    items: buyItem
+                                },
+                                balance: economy.balance - 300
                             }
+                        );
 
-                            await EconomySchema.find({
-                                guild: interaction.guildId,
-                                user: interaction.user.username,
-                                job: 'hunter'
-                            }).updateOne({
-                                balance: economy.balance - 300,
-                                $push: {
-                                    items: choice
-                                }
-                            })
+                        const embed2 = new EmbedBuilder()
+                            .setTitle(`Success!`)
+                            .setDescription(`You successfully bought a ${buyItem} for 300 Mora ${Mora}!`)
+                            .setFooter({ text: 'Shop buy' })
+                            .setColor('#FFBEEF');
 
-                            await interaction.followUp({
-                                content: `You have successfully bought 1 ${choice} for 300 Mora ${Mora}!`,
-                                embeds: [],
-                                components: []
-                            });
-                            return;
-                        }
+                        await interaction.editReply({
+                            embeds: [embed2],
+                            components: []
+                        });
                     })
                 }
-            }
 
                 break;
+            }
+
+            case 'sell': {
+                if (!economy) {
+                    interaction.reply({
+                        content: 'You need to create an economy account first. Use ```/economy create``` to create an economy account.'
+                    });
+                    return;
+                } else {
+                    let embed = new EmbedBuilder()
+                        .setTitle(`Sell an item`)
+                        .setDescription('Please type the name of the item you want to sell in the text box below and specify the quantity (e.g., `apple 5`).')
+                        .setFooter({ text: 'Shop sell' })
+                        .setColor('#FFBEEF');
+            
+                    await interaction.reply({
+                        embeds: [embed],
+                        ephemeral: true
+                    });
+            
+                    const filter = (response) => response.author.id === interaction.user.id;
+                    const collector = interaction.channel.createMessageCollector({
+                        filter,
+                        max: 1,
+                    });
+            
+                    collector.on('collect', async (message) => {
+                        const input = message.content;
+                        const [item, quantity] = input.trim().split(/\s+/);
+            
+                        if (item && quantity && !isNaN(quantity)) {
+                            const typedItem = item.toLowerCase();
+                            const itemCount = economy.items.filter(item => item.toLowerCase() === typedItem).length;
+            
+                            if (itemCount >= quantity) {
+                                // User has enough of the item
+                                const sellingPricePerItem = 150; // Adjust as needed
+            
+                                const totalMoney = sellingPricePerItem * Number(quantity); // Corrected calculation
+            
+                                // Remove items and update balance
+                                for (let i = 0; i < quantity; i++) {
+                                    const itemIndex = economy.items.findIndex(item => item.toLowerCase() === typedItem);
+                                    if (itemIndex !== -1) {
+                                        economy.items.splice(itemIndex, 1);
+                                    }
+                                }
+            
+                                economy.balance += totalMoney;
+            
+                                await economy.save();
+            
+                                const embed2 = new EmbedBuilder()
+                                    .setTitle(`Success!`)
+                                    .setDescription(`You successfully sold ${quantity} ${typedItem}(s) for ${totalMoney} Mora ${Mora}!`)
+                                    .setFooter({ text: 'Shop sell' })
+                                    .setColor('#FFBEEF');
+            
+                                interaction.followUp({
+                                    embeds: [embed2]
+                                });
+                            } else {
+                                interaction.followUp({
+                                    content: `You don't have enough ${typedItem}.`
+                                });
+                            }
+                        } else {
+                            interaction.followUp({
+                                content: "Invalid input. Please provide the item name and a valid quantity (e.g., `apple 5`)."
+                            });
+                        }
+                    });
+                }
+            
+                break;
+            }            
         }
     }
 };

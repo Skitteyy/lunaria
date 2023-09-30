@@ -70,7 +70,7 @@ module.exports = {
                     ]
                 })
 
-                targetUser.kick(
+                await targetUser.kick(
                     { reason: reason }
                 )
 

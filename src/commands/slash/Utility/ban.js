@@ -69,7 +69,7 @@ module.exports = {
                             .setColor('#FFBEEF')
                     ]
                 })
-                targetUser.ban(
+                await targetUser.ban(
                     { reason: reason }
                 )
             } catch (error) {

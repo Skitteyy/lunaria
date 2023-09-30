@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, Message, } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ComponentType } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
 const EconomySchema = require('../../../schemas/EconomySchema');
 
@@ -49,21 +49,59 @@ module.exports = {
 
             case 'delete': {
                 if (economy) {
-                    await EconomySchema.deleteOne({
-                        guild: interaction.guildId,
-                        user: interaction.member.user.username,
-                        job: {
-                            $exists: true
-                        },
-                        items: {
-                            $exists: true
-                        }
-                    })
+                    const choices = [
+                        'confirm',
+                        'cancel'
+                    ]
+
+                    let embed = new EmbedBuilder()
+                        .setTitle(`Delete Economy Account?`)
+                        .setDescription(`Are you sure you want to delete your economy account?`)
+                        .setFooter({ text: 'Economy Delete' })
+                        .setColor('#FFBEEF');
+
+                    const selectMenu = new StringSelectMenuBuilder()
+                        .setCustomId('confirm')
+                        .setPlaceholder('Delete your Economy Account?')
+                        .addOptions(choices.map(choice => ({
+                            label: choice,
+                            value: choice.toLowerCase(),
+                        })));
+
+                    const row = new ActionRowBuilder()
+                        .addComponents(selectMenu);
 
                     await interaction.reply({
-                        content: 'Your economy account for this server has been successfully deleted.'
+                        embeds: [embed],
+                        components: [row],
+                        ephemeral: true
+                    });
+
+                    const filter = i => i.user.id === interaction.user.id
+
+                    const collector = interaction.channel.createMessageComponentCollector({
+                        filter: filter,
+                        componentType: ComponentType.StringSelect,
+                        max: 1
                     })
-                    return;
+
+                    collector.on('collect', async (interaction) => {
+                        if (interaction.values[0] === 'confirm') {
+                            await EconomySchema.findOneAndDelete({
+                                guild: interaction.guildId,
+                                user: interaction.member.user.username
+                            })
+
+                            await interaction.reply({
+                                content: 'Your economy account for this server has been successfully deleted.'
+                            })
+                            return;
+                        } else {
+                            await interaction.reply({
+                                content: `Economy Account deletion has been cancelled.`
+                            })
+                        }
+                    })
                 } else {
                     await interaction.reply({
                         content: 'You don\'t have an economy account to delete.'
@@ -71,6 +109,8 @@ module.exports = {
                     return;
                 }
             }
+
+                break;
 
             case 'leaderboard': {
                 const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')

@@ -69,9 +69,16 @@ module.exports = {
         const randomSuccess = Math.floor(Math.random() * success.length);
         const randomFailure = Math.floor(Math.random() * failure.length);
 
+        let embed = new EmbedBuilder()
+            .setTitle(`${interaction.member.user.username} needs money`)
+            .setDescription('placeholder')
+            .setFooter({ text: 'Begging' })
+            .setColor('#FFBEEF');
+
         async function handling() {
-            if (Math.random() <= 0.3) {
-                return failure[randomFailure]
+            if (Math.random() <= 0.4) {
+                embed.setDescription(`${failure[randomFailure]}`)
+                return;
             } else {
                 const updatedBalance = balance + randomAmount;
                 await EconomySchema.find({
@@ -80,17 +87,26 @@ module.exports = {
                 }).updateOne({
                     balance: updatedBalance
                 })
-                return success[randomSuccess];
+
+                const getApple = Math.random() <= 0.2
+
+                if (getApple) {
+                    await EconomySchema.find({
+                        guild: interaction.guildId,
+                        user: interaction.member.user.username
+                    }).updateOne({
+                        $push: { items: 'apple' }
+                    })
+
+                    embed.setDescription(`${success[randomSuccess]}\n\nWould you look at that! You got an apple :apple:!`)
+                } else {
+                    embed.setDescription(success[randomSuccess]);
+                }
+                return;
             }
         }
 
-        const answer = await handling();
-
-        let embed = new EmbedBuilder()
-            .setTitle(`${interaction.member.user.username} needs money`)
-            .setDescription(answer)
-            .setFooter({ text: 'Begging' })
-            .setColor('#FFBEEF');
+        await handling();
 
         interaction.reply({
             embeds: [embed]

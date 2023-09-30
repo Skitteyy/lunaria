@@ -40,7 +40,9 @@ module.exports = {
                         .addFields(
                             { name: 'Fisherman', value: 'Use a **fishing rod** to catch fish!' },
                             { name: 'Archeologist', value: 'Use a **shovel** and dig up ancient relics!' },
-                            { name: 'Hunter', value: 'Use an **axe** to hunt wildlife!' }
+                            { name: 'Hunter', value: 'Use an **axe** to hunt wildlife!' },
+                            { name: 'Artist', value: 'Use a **paint brush** to draw drawings!' },
+                            { name: 'Streamer', value: 'Use a **computer** to live stream!' }
                         )
                         .setFooter({ text: 'Job list' })
                         .setColor('#FFBEEF');
@@ -59,6 +61,8 @@ module.exports = {
                     })
                     return
                 } else {
+                    const job = economy.job;
+                    
                     let embed = new EmbedBuilder()
                         .setTitle(`Select a User`)
                         .setDescription('Please select a user.')
@@ -127,7 +131,9 @@ module.exports = {
                         const choices = [
                             'fisherman',
                             'archeologist',
-                            'hunter'
+                            'hunter',
+                            'artist',
+                            'streamer'
                         ];
 
                         let embed = new EmbedBuilder()
@@ -189,6 +195,25 @@ module.exports = {
                 } else {
                     const job = economy.job;
 
+                    function jobItem(job) {
+                        switch (job) {
+                            case 'fisherman':
+                                return 'fishing rod';
+                            case 'archeologist':
+                                return 'shovel';
+                            case 'hunter':
+                                return 'axe';
+                            case 'artist':
+                                return 'paint brush';
+                            case 'streamer':
+                                return 'computer';
+                            default:
+                                return null;
+                        }
+                    }
+
+                    const itemToDelete = jobItem(job)
+
                     const choices = [
                         'confirm',
                         'cancel'
@@ -202,7 +227,7 @@ module.exports = {
 
                     const selectMenu = new StringSelectMenuBuilder()
                         .setCustomId('confirm')
-                        .setPlaceholder('confirm?')
+                        .setPlaceholder('Select')
                         .addOptions(choices.map(choice => ({
                             label: choice,
                             value: choice.toLowerCase(),
@@ -228,14 +253,29 @@ module.exports = {
                     collector.on('collect', async (interaction) => {
                         await interaction.deferReply();
 
-                        interaction.followUp(`You quit your job as a ${job}.`)
+                        if (interaction.values[0] === 'confirm') {
+                            const userDocument = await EconomySchema.findOne({
+                                guild: interaction.guildId,
+                                user: interaction.user.username
+                            });
 
-                        await EconomySchema.find({
-                            guild: interaction.guildId,
-                            user: interaction.member.user.username
-                        }).updateOne({
-                            job: 'unemployed'
-                        })
+                            if (!job.includes('unemployed')) {
+                                userDocument.items = userDocument.items.filter(item => item !== itemToDelete)
+                                userDocument.job = 'unemployed'
+
+                                userDocument.save();
+
+                                interaction.editReply(`You quit your job as a ${job}.`)
+                            } else {
+                                interaction.editReply({
+                                    content: `You don't have a job to quit`
+                                })
+                                return;
+                            };
+                        } else {
+                            interaction.followUp(`You changed your mind and did not quit your job as a ${job}.`)
+                            return;
+                        }
                     })
                 }
             }

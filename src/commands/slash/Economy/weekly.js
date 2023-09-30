@@ -44,19 +44,40 @@ module.exports = {
 
         let weekly = await TimeSchema.findOne({
             guild: interaction.guildId,
-            user: interaction.user.username,
-            lastWeekly: {
-                $exists: true
-            },
-            nextWeekly: {
-                $exists: true
-            }
+            user: interaction.user.username
         });
 
         switch (interaction.options.getString('action')) {
             case 'claim': {
-                if (weekly) {
-                    if (weekly.lastWeekly.toISOString() !== currentDate.toISOString()) {
+                if (!weekly) {
+                    new TimeSchema({
+                        guild: interaction.guildId,
+                        user: interaction.user.username,
+                        lastWeekly: currentDate,
+                        nextWeekly: nextWeeklyDate
+                    }).save();
+
+                    let embed = new EmbedBuilder()
+                        .setTitle(`Weekly Mora`)
+                        .setDescription(`Here is your weekly 25000 Mora ${Mora}.`)
+                        .setFooter({ text: 'Weekly claim' })
+                        .setColor('#FFBEEF')
+                        .setTimestamp();
+
+                    interaction.reply({
+                        embeds: [embed]
+                    });
+
+                    await EconomySchema.find({
+                        guild: interaction.guildId,
+                        user: interaction.user.username
+                    }).updateOne({
+                        balance: balance + 25000
+                    });
+
+                    return;
+                } else {
+                    if (!weekly.lastWeekly || currentDate >= weekly.nextWeekly) {
                         let embed = new EmbedBuilder()
                             .setTitle(`Weekly Mora`)
                             .setDescription(`Here is your weekly 25000 Mora ${Mora}.`)
@@ -84,7 +105,7 @@ module.exports = {
                     } else {
                         let embed = new EmbedBuilder()
                             .setTitle(`Weekly Mora`)
-                            .setDescription(`You already claimed your weekly Mora ${Mora} this week. Use \`\`\`/weekly check\`\`\` to see when you can claim it next.`)
+                            .setDescription(`You already claimed your weekly Mora ${Mora} today. Use \`\`\`/weekly check\`\`\` to see when you can claim it next.`)
                             .setFooter({ text: 'Weekly claim' })
                             .setColor('#FFBEEF')
                             .setTimestamp();
@@ -95,28 +116,28 @@ module.exports = {
 
                         return;
                     }
-                } else {
-                    weekly = new TimeSchema({
-                        guild: interaction.guildId,
-                        user: interaction.user.username,
-                        lastWeekly: currentDate,
-                        nextWeekly: nextWeeklyDate
-                    });
-                    await weekly.save();
-
-                    await interaction.reply({
-                        content: `An error occured. Please try again.`
-                    })
-                    return;
                 }
             }
 
             case 'check': {
-                if (weekly) {
-                    if (weekly.lastWeekly.toISOString() !== currentDate.toISOString()) {
+                if (!weekly) {
+                    let embed = new EmbedBuilder()
+                        .setTitle(`Weekly Mora`)
+                        .setDescription(`Your weekly Mora ${Mora} is ready to be claimed.`)
+                        .setFooter({ text: 'Weekly check' })
+                        .setColor('#FFBEEF')
+                        .setTimestamp();
+
+                    interaction.reply({
+                        embeds: [embed]
+                    });
+
+                    return;
+                } else {
+                    if (!weekly.lastWeekly || currentDate >= weekly.nextWeekly) {
                         let embed = new EmbedBuilder()
                             .setTitle(`Weekly Mora`)
-                            .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
+                            .setDescription(`Your weekly Mora ${Mora} is ready to be claimed.`)
                             .setFooter({ text: 'Weekly check' })
                             .setColor('#FFBEEF')
                             .setTimestamp();
@@ -131,7 +152,7 @@ module.exports = {
                         const botTime = new Date();
 
                         const duration = Math.floor((nextWeeklyTime - botTime) / 1000);
-
+                        
                         const days = Math.floor(duration / 86400);
                         const hours = Math.floor((duration % 86400) / 3600);
                         const minutes = Math.floor((duration % 3600) / 60);
@@ -151,19 +172,6 @@ module.exports = {
 
                         return;
                     }
-                } else {
-                    weekly = new TimeSchema({
-                        guild: interaction.guildId,
-                        user: interaction.user.username,
-                        lastWeekly: currentDate,
-                        nextWeekly: nextWeeklyDate
-                    });
-                    await weekly.save();
-
-                    await interaction.reply({
-                        content: `An error occured. Please try again.`
-                    })
-                    return;
                 }
             }
         }
