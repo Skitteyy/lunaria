@@ -65,7 +65,7 @@ module.exports = {
                 .setTitle(`Removed Moonshard from ${user}!`)
                 .setDescription(`Successfully removed ${amount} Moonshard ${Moonshard} from ${user}!`)
                 .setFooter({ text: 'Remove Balance' })
-                .setColor('#White')
+                .setColor('White')
 
             interaction.reply({
                 embeds: [embed]

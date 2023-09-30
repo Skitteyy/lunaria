@@ -23,7 +23,7 @@ module.exports = {
                                 .setImage(post.file_url)
                                 .setDescription(`Post : ${post.postView}`)
                                 .setTimestamp()
-                                .setColor('#White')
+                                .setColor('White')
                         ]
                     })
                 }

@@ -71,7 +71,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Moonshard ${Moonshard} on heads. The coin landed on heads!\nResult: + ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#White');
+                    .setColor('White');
 
                 await interaction.reply({
                     embeds: [embed]
@@ -91,7 +91,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Moonshard ${Moonshard} on heads. The coin landed on tails!\nResult: - ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#White');
+                    .setColor('White');
 
                 await interaction.reply({
                     embeds: [embed]
@@ -113,7 +113,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Moonshard ${Moonshard} on tails. The coin landed on heads!\nResult: - ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#White');
+                    .setColor('White');
 
                 await interaction.reply({
                     embeds: [embed]
@@ -133,7 +133,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Moonshard ${Moonshard} on tails. The coin landed on tails!\nResult: + ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#White');
+                    .setColor('White');
 
                 await interaction.reply({
                     embeds: [embed]

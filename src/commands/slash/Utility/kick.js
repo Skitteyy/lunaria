@@ -66,7 +66,7 @@ module.exports = {
                             .setDescription(`${targetUser.user.username} has been kicked for **${reason}**.`)
                             .setFooter({ text: 'User Kick' })
                             .setTimestamp()
-                            .setColor('#White')
+                            .setColor('White')
                     ]
                 })
 
