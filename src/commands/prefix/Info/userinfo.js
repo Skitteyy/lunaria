@@ -32,7 +32,7 @@ module.exports = {
                         )
                         .setFooter({ text: 'User Information' })
                         .setTimestamp()
-                        .setColor('#FFBEEF')
+                        .setColor('#White')
                 ]
             });
         } else {
@@ -51,7 +51,7 @@ module.exports = {
                         )
                         .setFooter({ text: 'User Information' })
                         .setTimestamp()
-                        .setColor('#FFBEEF')
+                        .setColor('#White')
                 ]
             });
         }

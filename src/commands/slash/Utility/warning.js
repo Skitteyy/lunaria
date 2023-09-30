@@ -99,7 +99,7 @@ module.exports = {
                             .setDescription(`${targetUser.user.username} has been warned for **${reason}**.`)
                             .setFooter({ text: 'User warn' })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                     ]
                 })
             }
@@ -122,7 +122,7 @@ module.exports = {
                         .setDescription(`${targetUser.user.username} has been warned for **${reason}**.`)
                         .setFooter({ text: 'User warn' })
                         .setTimestamp()
-                        .setColor('#FFBEEF')
+                        .setColor('#White')
                 ]
             })
 
@@ -158,7 +158,7 @@ module.exports = {
                             .setDescription(`${targetUser} doesn\'t have any warnings.`)
                             .setFooter({ text: 'User warns' })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                     ]
                 });
                 return;
@@ -172,7 +172,7 @@ module.exports = {
                             .setDescription(`${warns}`)
                             .setFooter({ text: 'User warns' })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                     ]
                 })
             }
@@ -225,7 +225,7 @@ module.exports = {
                             .setDescription(`Removed a warning with the id **${warnid}** from <@${targetUser.id}>.`)
                             .setFooter({ text: 'Warn removal' })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                     ]
                 })
             }
@@ -248,7 +248,7 @@ module.exports = {
                         .setDescription(`Removed a warning with the id **${warnid}** from <@${targetUser.id}>.`)
                         .setFooter({ text: 'User warn' })
                         .setTimestamp()
-                        .setColor('#FFBEEF')
+                        .setColor('#White')
                 ]
             })
         }

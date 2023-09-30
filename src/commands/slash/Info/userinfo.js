@@ -34,7 +34,7 @@ module.exports = {
                     )
                     .setFooter({ text: 'User Information' })
                     .setTimestamp()
-                    .setColor('#FFBEEF')
+                    .setColor('#White')
             ]
         })
     }

@@ -73,7 +73,7 @@ module.exports = {
             .setTitle(`${interaction.member.user.username} needs money`)
             .setDescription('placeholder')
             .setFooter({ text: 'Begging' })
-            .setColor('#FFBEEF');
+            .setColor('#White');
 
         async function handling() {
             if (Math.random() <= 0.4) {

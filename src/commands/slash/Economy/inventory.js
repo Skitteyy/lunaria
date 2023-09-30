@@ -40,7 +40,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle('Inventory')
                 .setDescription(`Page ${currentPage}/${totalPages}`)
-                .setColor('#FFBEEF');
+                .setColor('#White');
 
             // Add each item as a field
             itemsToDisplay.forEach((item, index) => {

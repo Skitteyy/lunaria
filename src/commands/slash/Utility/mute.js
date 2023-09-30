@@ -99,7 +99,7 @@ module.exports = {
                             .setDescription(`${targetUser} was timed out for ${prettyMs(msDuration)}.`)
                             .setFooter({ text: 'Time out' })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                     ]
                 });
             } catch (error) {

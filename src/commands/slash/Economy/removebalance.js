@@ -65,7 +65,7 @@ module.exports = {
                 .setTitle(`Removed Mora from ${user}!`)
                 .setDescription(`Successfully removed ${amount} Mora ${Mora} from ${user}!`)
                 .setFooter({ text: 'Remove Balance' })
-                .setColor('#FFBEEF')
+                .setColor('#White')
 
             interaction.reply({
                 embeds: [embed]

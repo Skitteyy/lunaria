@@ -61,7 +61,7 @@ module.exports = {
                         .setTitle(`Daily Mora`)
                         .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
                         .setFooter({ text: 'Daily claim' })
-                        .setColor('#FFBEEF')
+                        .setColor('#White')
                         .setTimestamp();
 
                     interaction.reply({
@@ -82,7 +82,7 @@ module.exports = {
                             .setTitle(`Daily Mora`)
                             .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
                             .setFooter({ text: 'Daily claim' })
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                             .setTimestamp();
 
                         interaction.reply({
@@ -107,7 +107,7 @@ module.exports = {
                             .setTitle(`Daily Mora`)
                             .setDescription(`You already claimed your daily Mora ${Mora} today. Use \`\`\`/daily check\`\`\` to see when you can claim it next.`)
                             .setFooter({ text: 'Daily claim' })
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                             .setTimestamp();
 
                         interaction.reply({
@@ -125,7 +125,7 @@ module.exports = {
                         .setTitle(`Daily Mora`)
                         .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
                         .setFooter({ text: 'Daily check' })
-                        .setColor('#FFBEEF')
+                        .setColor('#White')
                         .setTimestamp();
 
                     interaction.reply({
@@ -139,7 +139,7 @@ module.exports = {
                             .setTitle(`Daily Mora`)
                             .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
                             .setFooter({ text: 'Daily check' })
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                             .setTimestamp();
 
                         interaction.reply({
@@ -162,7 +162,7 @@ module.exports = {
                             .setTitle(`Daily Mora`)
                             .setDescription(`Your daily Mora ${Mora} can be claimed again in ${remainingTime}.`)
                             .setFooter({ text: 'Daily check' })
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                             .setTimestamp();
 
                         interaction.reply({

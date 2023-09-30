@@ -56,7 +56,7 @@ module.exports = {
                 .setTitle(`Set ${user}'s Mora!`)
                 .setDescription(`Successfully set ${user}'s Mora ${Mora} to ${amount}!`)
                 .setFooter({ text: 'Set Balance' })
-                .setColor('#FFBEEF')
+                .setColor('#White')
 
             interaction.reply({
                 embeds: [embed]
