@@ -31,7 +31,7 @@ module.exports = {
                     )
                     .setFooter({ text: 'Server Information' })
                     .setTimestamp()
-                    .setColor('#White')
+                    .setColor('White')
             ]
         });
     }

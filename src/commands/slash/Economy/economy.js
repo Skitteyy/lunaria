@@ -58,7 +58,7 @@ module.exports = {
                         .setTitle(`Delete Economy Account?`)
                         .setDescription(`Are you sure you want to delete your economy account?`)
                         .setFooter({ text: 'Economy Delete' })
-                        .setColor('#White');
+                        .setColor('White');
 
                     const selectMenu = new StringSelectMenuBuilder()
                         .setCustomId('confirm')
@@ -136,7 +136,7 @@ module.exports = {
                         .setTitle(`${interaction.guild.name} Leaderboard`)
                         .setDescription(list)
                         .setFooter({ text: 'Server Leaderboard' })
-                        .setColor('#White')
+                        .setColor('White')
 
                     return interaction.reply({
                         embeds: [embed]

@@ -307,7 +307,7 @@ client.on('guildMemberAdd', async member => {
                     .setDescription(`Welcome to ${member.guild.name}, <@${member.user.id}>!\nMake sure to check out <#1087472089134538792>, <#1145011289106694194> and verify at <#1116818295170011266>.\nEnjoy your stay!`)
                     .setFooter({ iconURL: member.guild.iconURL(), text: `${member.guild.name}` })
                     .setTimestamp()
-                    .setColor('#White')
+                    .setColor('White')
             ]
         })
     } else return;

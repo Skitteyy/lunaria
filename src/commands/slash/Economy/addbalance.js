@@ -58,7 +58,7 @@ module.exports = {
                 .setTitle(`Added Moonshard to ${user}!`)
                 .setDescription(`Successfully gave ${user} ${amount} Moonshard ${Moonshard}!`)
                 .setFooter({ text: 'Add Balance' })
-                .setColor('#White')
+                .setColor('White')
 
             interaction.reply({
                 embeds: [embed]

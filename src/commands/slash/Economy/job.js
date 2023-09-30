@@ -45,7 +45,7 @@ module.exports = {
                             { name: 'Streamer', value: 'Use a **computer** to live stream!' }
                         )
                         .setFooter({ text: 'Job list' })
-                        .setColor('#White');
+                        .setColor('White');
 
                     await interaction.reply({
                         embeds: [embed]
@@ -67,7 +67,7 @@ module.exports = {
                         .setTitle(`Select a User`)
                         .setDescription('Please select a user.')
                         .setFooter({ text: 'Job info' })
-                        .setColor('#White');
+                        .setColor('White');
 
                     const selectMenu = new MentionableSelectMenuBuilder()
                         .setCustomId('user')
@@ -103,7 +103,7 @@ module.exports = {
                                 { name: 'Job Satus', value: `${job}` }
                             )
                             .setFooter({ text: 'Job info' })
-                            .setColor('#White');
+                            .setColor('White');
 
                         await interaction.editReply({
                             embeds: [embed2]
@@ -140,7 +140,7 @@ module.exports = {
                             .setTitle(`Select a Job`)
                             .setDescription('Please pick a job to apply for below.')
                             .setFooter({ text: 'Job application' })
-                            .setColor('#White');
+                            .setColor('White');
 
                         const selectMenu = new StringSelectMenuBuilder()
                             .setCustomId('jobs')
@@ -223,7 +223,7 @@ module.exports = {
                         .setTitle(`Quit your current job?`)
                         .setDescription(`Are you sure you want to quit your current job as a ${job}?`)
                         .setFooter({ text: 'Quit Job' })
-                        .setColor('#White');
+                        .setColor('White');
 
                     const selectMenu = new StringSelectMenuBuilder()
                         .setCustomId('confirm')

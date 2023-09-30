@@ -61,7 +61,7 @@ module.exports = {
                         .setTitle(`Weekly Moonshard`)
                         .setDescription(`Here is your weekly 25000 Moonshard ${Moonshard}.`)
                         .setFooter({ text: 'Weekly claim' })
-                        .setColor('#White')
+                        .setColor('White')
                         .setTimestamp();
 
                     interaction.reply({
@@ -82,7 +82,7 @@ module.exports = {
                             .setTitle(`Weekly Moonshard`)
                             .setDescription(`Here is your weekly 25000 Moonshard ${Moonshard}.`)
                             .setFooter({ text: 'Weekly claim' })
-                            .setColor('#White')
+                            .setColor('White')
                             .setTimestamp();
 
                         interaction.reply({
@@ -107,7 +107,7 @@ module.exports = {
                             .setTitle(`Weekly Moonshard`)
                             .setDescription(`You already claimed your weekly Moonshard ${Moonshard} today. Use \`\`\`/weekly check\`\`\` to see when you can claim it next.`)
                             .setFooter({ text: 'Weekly claim' })
-                            .setColor('#White')
+                            .setColor('White')
                             .setTimestamp();
 
                         interaction.reply({
@@ -125,7 +125,7 @@ module.exports = {
                         .setTitle(`Weekly Moonshard`)
                         .setDescription(`Your weekly Moonshard ${Moonshard} is ready to be claimed.`)
                         .setFooter({ text: 'Weekly check' })
-                        .setColor('#White')
+                        .setColor('White')
                         .setTimestamp();
 
                     interaction.reply({
@@ -139,7 +139,7 @@ module.exports = {
                             .setTitle(`Weekly Moonshard`)
                             .setDescription(`Your weekly Moonshard ${Moonshard} is ready to be claimed.`)
                             .setFooter({ text: 'Weekly check' })
-                            .setColor('#White')
+                            .setColor('White')
                             .setTimestamp();
 
                         interaction.reply({
@@ -163,7 +163,7 @@ module.exports = {
                             .setTitle(`Weekly Moonshard`)
                             .setDescription(`Your weekly Moonshard ${Moonshard} can be claimed again in ${remainingTime}.`)
                             .setFooter({ text: 'Weekly check' })
-                            .setColor('#White')
+                            .setColor('White')
                             .setTimestamp();
 
                         interaction.reply({
