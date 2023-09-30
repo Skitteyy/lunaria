@@ -7,7 +7,7 @@ var cooldown = [];
 module.exports = {
     structure: new SlashCommandBuilder()
         .setName('work')
-        .setDescription('Work for 500-1500 Mora'),
+        .setDescription('Work for 500-1500 Moonshard'),
     /**
      * @param {ExtendedClient} client 
      * @param {ChatInputCommandInteraction} interaction 
@@ -32,7 +32,7 @@ module.exports = {
             })
             return
         } else {
-            const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+            const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
 
             let balance = economy.balance
 
@@ -51,19 +51,19 @@ module.exports = {
         
                 if (job.startsWith('fisherman')) {
                     requiredItem = 'fishing rod';
-                    jobDescription = `You fish a workday long and get paid ${randomAmount} Mora ${Mora}.`;
+                    jobDescription = `You fish a workday long and get paid ${randomAmount} Moonshard ${Moonshard}.`;
                 } else if (job.startsWith('archeologist')) {
                     requiredItem = 'shovel';
-                    jobDescription = `You dig up expensive ancient relics and sell them for ${randomAmount} Mora ${Mora}.`;
+                    jobDescription = `You dig up expensive ancient relics and sell them for ${randomAmount} Moonshard ${Moonshard}.`;
                 } else if (job.startsWith('hunter')) {
                     requiredItem = 'axe';
-                    jobDescription = `You hunt animals and get ${randomAmount} Mora ${Mora} for your work.`;
+                    jobDescription = `You hunt animals and get ${randomAmount} Moonshard ${Moonshard} for your work.`;
                 } else if (job.startsWith('artist')) {
                     requiredItem = 'paint brush';
-                    jobDescription = `You paint a beautiful painting and get ${randomAmount} Mora ${Mora} for your work.`;
+                    jobDescription = `You paint a beautiful painting and get ${randomAmount} Moonshard ${Moonshard} for your work.`;
                 } else if (job.startsWith('streamer')) {
                     requiredItem = 'computer';
-                    jobDescription = `You start a live stream and get ${randomAmount} Mora ${Mora} donated by your viewers.`;
+                    jobDescription = `You start a live stream and get ${randomAmount} Moonshard ${Moonshard} donated by your viewers.`;
                 }
         
                 const hasItem = economy.items.includes(requiredItem);

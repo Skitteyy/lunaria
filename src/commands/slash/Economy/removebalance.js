@@ -5,14 +5,14 @@ const EconomySchema = require('../../../schemas/EconomySchema');
 module.exports = {
     structure: new SlashCommandBuilder()
         .setName('removebalance')
-        .setDescription('Remove Mora from a user\'s balance')
+        .setDescription('Remove Moonshard from a user\'s balance')
         .addUserOption(option =>
             option.setName('user')
-                .setDescription('User whom to remove Mora from')
+                .setDescription('User whom to remove Moonshard from')
                 .setRequired(true))
         .addNumberOption(option =>
             option.setName('amount')
-                .setDescription('Amount of Mora to remove')
+                .setDescription('Amount of Moonshard to remove')
                 .setRequired(true)),
     /**
      * @param {ExtendedClient} client 
@@ -20,7 +20,7 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
         const user = interaction.options.getUser('user').username;
         const amount = interaction.options.getNumber('amount');
 
@@ -42,7 +42,7 @@ module.exports = {
 
             if (balance - amount < 0) {
                 interaction.reply({
-                    content: `${user} doesn\'t have this much Mora ${Mora}!`
+                    content: `${user} doesn\'t have this much Moonshard ${Moonshard}!`
                 })
                 return
             }
@@ -62,8 +62,8 @@ module.exports = {
             })
 
             let embed = new EmbedBuilder()
-                .setTitle(`Removed Mora from ${user}!`)
-                .setDescription(`Successfully removed ${amount} Mora ${Mora} from ${user}!`)
+                .setTitle(`Removed Moonshard from ${user}!`)
+                .setDescription(`Successfully removed ${amount} Moonshard ${Moonshard} from ${user}!`)
                 .setFooter({ text: 'Remove Balance' })
                 .setColor('#White')
 

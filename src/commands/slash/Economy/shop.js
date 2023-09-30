@@ -21,7 +21,7 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
 
         let economy = await EconomySchema.findOne({
             guild: interaction.guildId,
@@ -39,11 +39,11 @@ module.exports = {
                     let embed = new EmbedBuilder()
                         .setTitle('Available Items list')
                         .addFields(
-                            { name: 'Fishing Rod', value: `A tool used by fishermen to catch fish. Price: 300 Mora ${Mora}` },
-                            { name: 'Shovel', value: `A tool used by archeologists to dig up relics. Price: 300 Mora ${Mora}` },
-                            { name: 'Axe', value: `A tool used by hunters to hunt wildlife. Price: 300 Mora ${Mora}` },
-                            { name: 'Paint Brush', value: `A tool used by artists to draw paintings. Price: 300 Mora ${Mora}` },
-                            { name: 'Computer', value: `A tool used by streamers to stream stuff on the internet. Price: 300 Mora ${Mora}` }
+                            { name: 'Fishing Rod', value: `A tool used by fishermen to catch fish. Price: 300 Moonshard ${Moonshard}` },
+                            { name: 'Shovel', value: `A tool used by archeologists to dig up relics. Price: 300 Moonshard ${Moonshard}` },
+                            { name: 'Axe', value: `A tool used by hunters to hunt wildlife. Price: 300 Moonshard ${Moonshard}` },
+                            { name: 'Paint Brush', value: `A tool used by artists to draw paintings. Price: 300 Moonshard ${Moonshard}` },
+                            { name: 'Computer', value: `A tool used by streamers to stream stuff on the internet. Price: 300 Moonshard ${Moonshard}` }
                         )
                         .setFooter({ text: 'Items list' })
                         .setColor('#White');
@@ -129,7 +129,7 @@ module.exports = {
 
                         if (economy.balance < 300) {
                             interaction.editReply({
-                                content: `You have ${economy.balance} Mora ${Mora}. You need 300 Mora ${Mora} to buy this item.`,
+                                content: `You have ${economy.balance} Moonshard ${Moonshard}. You need 300 Moonshard ${Moonshard} to buy this item.`,
                                 embeds: [],
                                 components: []
                             })
@@ -167,7 +167,7 @@ module.exports = {
 
                         const embed2 = new EmbedBuilder()
                             .setTitle(`Success!`)
-                            .setDescription(`You successfully bought a ${buyItem} for 300 Mora ${Mora}!`)
+                            .setDescription(`You successfully bought a ${buyItem} for 300 Moonshard ${Moonshard}!`)
                             .setFooter({ text: 'Shop buy' })
                             .setColor('#White');
 
@@ -233,7 +233,7 @@ module.exports = {
             
                                 const embed2 = new EmbedBuilder()
                                     .setTitle(`Success!`)
-                                    .setDescription(`You successfully sold ${quantity} ${typedItem}(s) for ${totalMoney} Mora ${Mora}!`)
+                                    .setDescription(`You successfully sold ${quantity} ${typedItem}(s) for ${totalMoney} Moonshard ${Moonshard}!`)
                                     .setFooter({ text: 'Shop sell' })
                                     .setColor('#White');
             

@@ -11,7 +11,7 @@ module.exports = {
      * @param {UserContextMenuCommandInteraction} interaction 
      */
     run: async (client, interaction) => {
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
         const user = interaction.targetUser.username
 
         let economy = await EconomySchema.findOne({
@@ -29,7 +29,7 @@ module.exports = {
         if (!economy.balance) {
             let embed = new EmbedBuilder()
                 .setTitle(`${user}'s Balance`)
-                .setDescription(`${user} doesn't have any Mora ${Mora}!`)
+                .setDescription(`${user} doesn't have any Moonshard ${Moonshard}!`)
                 .setFooter({ text: 'Balance' })
                 .setColor('#White')
 
@@ -39,7 +39,7 @@ module.exports = {
         } else {
             let embed = new EmbedBuilder()
                 .setTitle(`${user}'s Balance`)
-                .setDescription(`${user} has ${economy.balance} Mora ${Mora}!`)
+                .setDescription(`${user} has ${economy.balance} Moonshard ${Moonshard}!`)
                 .setFooter({ text: 'Balance' })
                 .setColor('#White')
 

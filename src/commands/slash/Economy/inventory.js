@@ -14,7 +14,7 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
 
         let economy = await EconomySchema.findOne({
             guild: interaction.guildId,

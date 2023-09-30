@@ -7,7 +7,7 @@ var cooldown = [];
 module.exports = {
     structure: new SlashCommandBuilder()
         .setName('beg')
-        .setDescription('Beg for potentially 1-500 Mora'),
+        .setDescription('Beg for potentially 1-500 Moonshard'),
     /**
      * @param {ExtendedClient} client 
      * @param {ChatInputCommandInteraction} interaction 
@@ -21,7 +21,7 @@ module.exports = {
             return;
         }
 
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
 
         let economy = await EconomySchema.findOne({
             guild: interaction.guildId,
@@ -40,16 +40,16 @@ module.exports = {
         const randomAmount = Math.floor(Math.random() * 500 + 1)
 
         const success = [
-            `You started begging for money when a stone fell on your head, you look down at the stone and find ${randomAmount} Mora ${Mora} next to it!`,
-            `You thought about begging when a voice called: "${interaction.member.user.username}, stop it. No one likes beggars." and you got ${randomAmount} Mora ${Mora} all of a sudden.`,
-            `Okay here is ${randomAmount} Mora ${Mora}.`,
-            `I will give you ${randomAmount} Mora ${Mora} to shut up.`,
-            `Fine...\n/give ${interaction.member.user.username} economy:mora ${randomAmount}`,
-            `You beg and a bag with ${randomAmount} Mora ${Mora} lands in front of you. Wow!`,
-            `You start crying "Oh please! Please! I need money, please!" and the universe gives you ${randomAmount} Mora ${Mora}.`,
-            `\`\`\`//Update user balance.\nawait EconomySchema.find({\nguild: interaction.guildId,\nuser: interaction.member.user.username\n}).updateOne({\nbalance: economy.balance + randomAmount\n})\`\`\`\n+ ${randomAmount} Mora ${Mora}`,
-            `Aw, you poor thing! Here is ${randomAmount} Mora ${Mora}.`,
-            `You go up to a rich looking man and ask him for money, he turns around to face you and throws ${randomAmount} Mora ${Mora} directly in your face.`,
+            `You started begging for money when a stone fell on your head, you look down at the stone and find ${randomAmount} Moonshard ${Moonshard} next to it!`,
+            `You thought about begging when a voice called: "${interaction.member.user.username}, stop it. No one likes beggars." and you got ${randomAmount} Moonshard ${Moonshard} all of a sudden.`,
+            `Okay here is ${randomAmount} Moonshard ${Moonshard}.`,
+            `I will give you ${randomAmount} Moonshard ${Moonshard} to shut up.`,
+            `Fine...\n/give ${interaction.member.user.username} economy:Moonshard ${randomAmount}`,
+            `You beg and a bag with ${randomAmount} Moonshard ${Moonshard} lands in front of you. Wow!`,
+            `You start crying "Oh please! Please! I need money, please!" and the universe gives you ${randomAmount} Moonshard ${Moonshard}.`,
+            `\`\`\`//Update user balance.\nawait EconomySchema.find({\nguild: interaction.guildId,\nuser: interaction.member.user.username\n}).updateOne({\nbalance: economy.balance + randomAmount\n})\`\`\`\n+ ${randomAmount} Moonshard ${Moonshard}`,
+            `Aw, you poor thing! Here is ${randomAmount} Moonshard ${Moonshard}.`,
+            `You go up to a rich looking man and ask him for money, he turns around to face you and throws ${randomAmount} Moonshard ${Moonshard} directly in your face.`,
         ];
 
         const failure = [
@@ -59,7 +59,7 @@ module.exports = {
             `Hmmm, uhhh, wait a second... mmm no.`,
             `Maybe some other time.`,
             `Don't feel like it.`,
-            `You would've gotten ${randomAmount} Mora ${Mora} from me today but your begging disgusts me, so you get none.`,
+            `You would've gotten ${randomAmount} Moonshard ${Moonshard} from me today but your begging disgusts me, so you get none.`,
             `You go up to a kid to ask for money, but before you spoke you choked on oxygen and died.`,
             `error`,
             `I was taught not to talk to strangers.`,

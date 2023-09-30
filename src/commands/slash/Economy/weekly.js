@@ -6,7 +6,7 @@ const TimeSchema = require('../../../schemas/TimeSchema');
 module.exports = {
     structure: new SlashCommandBuilder()
         .setName('weekly')
-        .setDescription('Claim your weekly Mora!')
+        .setDescription('Claim your weekly Moonshard!')
         .addStringOption(option =>
             option.setName('action')
                 .setDescription('choose an action')
@@ -21,7 +21,7 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
@@ -58,8 +58,8 @@ module.exports = {
                     }).save();
 
                     let embed = new EmbedBuilder()
-                        .setTitle(`Weekly Mora`)
-                        .setDescription(`Here is your weekly 25000 Mora ${Mora}.`)
+                        .setTitle(`Weekly Moonshard`)
+                        .setDescription(`Here is your weekly 25000 Moonshard ${Moonshard}.`)
                         .setFooter({ text: 'Weekly claim' })
                         .setColor('#White')
                         .setTimestamp();
@@ -79,8 +79,8 @@ module.exports = {
                 } else {
                     if (!weekly.lastWeekly || currentDate >= weekly.nextWeekly) {
                         let embed = new EmbedBuilder()
-                            .setTitle(`Weekly Mora`)
-                            .setDescription(`Here is your weekly 25000 Mora ${Mora}.`)
+                            .setTitle(`Weekly Moonshard`)
+                            .setDescription(`Here is your weekly 25000 Moonshard ${Moonshard}.`)
                             .setFooter({ text: 'Weekly claim' })
                             .setColor('#White')
                             .setTimestamp();
@@ -104,8 +104,8 @@ module.exports = {
                         return;
                     } else {
                         let embed = new EmbedBuilder()
-                            .setTitle(`Weekly Mora`)
-                            .setDescription(`You already claimed your weekly Mora ${Mora} today. Use \`\`\`/weekly check\`\`\` to see when you can claim it next.`)
+                            .setTitle(`Weekly Moonshard`)
+                            .setDescription(`You already claimed your weekly Moonshard ${Moonshard} today. Use \`\`\`/weekly check\`\`\` to see when you can claim it next.`)
                             .setFooter({ text: 'Weekly claim' })
                             .setColor('#White')
                             .setTimestamp();
@@ -122,8 +122,8 @@ module.exports = {
             case 'check': {
                 if (!weekly) {
                     let embed = new EmbedBuilder()
-                        .setTitle(`Weekly Mora`)
-                        .setDescription(`Your weekly Mora ${Mora} is ready to be claimed.`)
+                        .setTitle(`Weekly Moonshard`)
+                        .setDescription(`Your weekly Moonshard ${Moonshard} is ready to be claimed.`)
                         .setFooter({ text: 'Weekly check' })
                         .setColor('#White')
                         .setTimestamp();
@@ -136,8 +136,8 @@ module.exports = {
                 } else {
                     if (!weekly.lastWeekly || currentDate >= weekly.nextWeekly) {
                         let embed = new EmbedBuilder()
-                            .setTitle(`Weekly Mora`)
-                            .setDescription(`Your weekly Mora ${Mora} is ready to be claimed.`)
+                            .setTitle(`Weekly Moonshard`)
+                            .setDescription(`Your weekly Moonshard ${Moonshard} is ready to be claimed.`)
                             .setFooter({ text: 'Weekly check' })
                             .setColor('#White')
                             .setTimestamp();
@@ -160,8 +160,8 @@ module.exports = {
                         const remainingTime = `${days}d ${hours}h ${minutes}m ${seconds}s`
 
                         let embed = new EmbedBuilder()
-                            .setTitle(`Weekly Mora`)
-                            .setDescription(`Your weekly Mora ${Mora} can be claimed again in ${remainingTime}.`)
+                            .setTitle(`Weekly Moonshard`)
+                            .setDescription(`Your weekly Moonshard ${Moonshard} can be claimed again in ${remainingTime}.`)
                             .setFooter({ text: 'Weekly check' })
                             .setColor('#White')
                             .setTimestamp();
