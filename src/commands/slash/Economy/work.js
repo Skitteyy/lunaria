@@ -40,131 +40,67 @@ module.exports = {
 
             const randomAmount = 500 + Math.floor(Math.random() * 1001)
 
-            const fisherman = `You fish a workday long and get paid ${randomAmount} Mora ${Mora}.`
-
-            const archeologist = `You dig up expensive ancient relics and sell them for ${randomAmount} Mora ${Mora}.`
-
-            const hunter = `You hunt animals and get ${randomAmount} Mora ${Mora} for your work.`
-
             if (job.startsWith('unemployed')) {
                 interaction.reply({
                     content: 'You need to apply for a job first. Use ```/job apply``` to apply for a job.'
                 })
                 return
             } else {
-                var answer;
-
-                if (economy.job.startsWith('fisherman')) {
-                    const hasItem = economy.items.find(item => item === 'fishing rod')
-
-                    if (!hasItem) {
-                        interaction.reply({
-                            content: 'You can only work your job as a fisherman if you have a fishing rod. Buy one using ```/shop buy```'
-                        })
-                    } else {
-                        answer = fisherman
-
-                        const updatedBalance = balance + randomAmount;
-
-                        await EconomySchema.find({
-                            guild: interaction.guildId,
-                            user: interaction.member.user.username
-                        }).updateOne({
-                            balance: updatedBalance
-                        })
-
-                        let embed = new EmbedBuilder()
-                            .setTitle('You work your job')
-                            .setDescription(answer)
-                            .setFooter({ text: 'Job work' })
-                            .setColor('#FFBEEF');
-
-                        await interaction.reply({
-                            embeds: [embed]
-                        });
-
-                        cooldown.push(interaction.member.user.id);
-                        setTimeout(() => {
-                            cooldown.shift();
-                        }, 1800 * 1000);
-                    }
+                let requiredItem;
+                let jobDescription;
+        
+                if (job.startsWith('fisherman')) {
+                    requiredItem = 'fishing rod';
+                    jobDescription = `You fish a workday long and get paid ${randomAmount} Mora ${Mora}.`;
+                } else if (job.startsWith('archeologist')) {
+                    requiredItem = 'shovel';
+                    jobDescription = `You dig up expensive ancient relics and sell them for ${randomAmount} Mora ${Mora}.`;
+                } else if (job.startsWith('hunter')) {
+                    requiredItem = 'axe';
+                    jobDescription = `You hunt animals and get ${randomAmount} Mora ${Mora} for your work.`;
+                } else if (job.startsWith('artist')) {
+                    requiredItem = 'paint brush';
+                    jobDescription = `You paint a beautiful painting and get ${randomAmount} Mora ${Mora} for your work.`;
+                } else if (job.startsWith('streamer')) {
+                    requiredItem = 'computer';
+                    jobDescription = `You start a live stream and get ${randomAmount} Mora ${Mora} donated by your viewers.`;
                 }
-
-                if (economy.job.startsWith('archeologist')) {
-                    const hasItem = economy.items.find(item => item === 'shovel')
-
-                    if (!hasItem) {
-                        interaction.reply({
-                            content: 'You can only work your job as an archeologist if you have a shovel. Buy one using ```/shop buy```'
-                        })
-                    } else {
-                        answer = archeologist
-
-                        const updatedBalance = balance + randomAmount;
-
-                        await EconomySchema.find({
-                            guild: interaction.guildId,
-                            user: interaction.member.user.username
-                        }).updateOne({
-                            balance: updatedBalance
-                        })
-
-                        let embed = new EmbedBuilder()
-                            .setTitle('You work your job')
-                            .setDescription(answer)
-                            .setFooter({ text: 'Job work' })
-                            .setColor('#FFBEEF');
-
-                        await interaction.reply({
-                            embeds: [embed]
-                        });
-
-                        cooldown.push(interaction.member.user.id);
-                        setTimeout(() => {
-                            cooldown.shift();
-                        }, 1800 * 1000);
-                    }
+        
+                const hasItem = economy.items.includes(requiredItem);
+        
+                if (!hasItem) {
+                    interaction.reply({
+                        content: `You can only work your job as a ${job} if you have a ${requiredItem}. Buy one using \`/shop buy\`.`
+                    });
+                    return;
                 }
-
-                if (economy.job.startsWith('hunter')) {
-                    const hasItem = economy.items.find(item => item === 'axe')
-
-                    if (!hasItem) {
-                        interaction.reply({
-                            content: 'You can only work your job as a hunter if you have an axe. Buy one using ```/shop buy```'
-                        })
-                    } else {
-                        answer = hunter
-
-                        const updatedBalance = balance + randomAmount;
-
-                        await EconomySchema.find({
-                            guild: interaction.guildId,
-                            user: interaction.member.user.username
-                        }).updateOne({
-                            balance: updatedBalance
-                        })
-
-                        let embed = new EmbedBuilder()
-                            .setTitle('You work your job')
-                            .setDescription(answer)
-                            .setFooter({ text: 'Job work' })
-                            .setColor('#FFBEEF');
-
-                        await interaction.reply({
-                            embeds: [embed]
-                        });
-
-                        cooldown.push(interaction.member.user.id);
-                        setTimeout(() => {
-                            cooldown.shift();
-                        }, 1800 * 1000);
+        
+                const updatedBalance = balance + randomAmount;
+        
+                await EconomySchema.findOneAndUpdate(
+                    {
+                        guild: interaction.guildId,
+                        user: interaction.member.user.username
+                    },
+                    {
+                        balance: updatedBalance
                     }
-                }
-            }
-
-            if (job.startsWith('unemployed') || job.startsWith('')) {
-                return
+                );
+        
+                let embed = new EmbedBuilder()
+                    .setTitle('You work your job')
+                    .setDescription(jobDescription)
+                    .setFooter({ text: 'Job work' })
+                    .setColor('#FFBEEF');
+        
+                await interaction.reply({
+                    embeds: [embed]
+                });
+        
+                cooldown.push(interaction.member.user.id);
+                setTimeout(() => {
+                    cooldown.shift();
+                }, 1800 * 1000);
             }
         }
     }

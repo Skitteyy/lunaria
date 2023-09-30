@@ -44,19 +44,40 @@ module.exports = {
 
         let daily = await TimeSchema.findOne({
             guild: interaction.guildId,
-            user: interaction.user.username,
-            lastDaily: {
-                $exists: true
-            },
-            nextDaily: {
-                $exists: true
-            }
+            user: interaction.user.username
         });
 
         switch (interaction.options.getString('action')) {
             case 'claim': {
-                if (daily) {
-                    if (daily.lastDaily.toISOString() !== currentDate.toISOString()) {
+                if (!daily) {
+                    new TimeSchema({
+                        guild: interaction.guildId,
+                        user: interaction.user.username,
+                        lastDaily: currentDate,
+                        nextDaily: nextDailyDate
+                    }).save();
+
+                    let embed = new EmbedBuilder()
+                        .setTitle(`Daily Mora`)
+                        .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
+                        .setFooter({ text: 'Daily claim' })
+                        .setColor('#FFBEEF')
+                        .setTimestamp();
+
+                    interaction.reply({
+                        embeds: [embed]
+                    });
+
+                    await EconomySchema.find({
+                        guild: interaction.guildId,
+                        user: interaction.user.username
+                    }).updateOne({
+                        balance: balance + 5000
+                    });
+
+                    return;
+                } else {
+                    if (!daily.lastDaily || daily.lastDaily.toISOString() !== currentDate.toISOString()) {
                         let embed = new EmbedBuilder()
                             .setTitle(`Daily Mora`)
                             .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
@@ -95,25 +116,25 @@ module.exports = {
 
                         return;
                     }
-                } else {
-                    daily = new TimeSchema({
-                        guild: interaction.guildId,
-                        user: interaction.user.username,
-                        lastDaily: currentDate,
-                        nextDaily: nextDailyDate
-                    });
-                    await daily.save();
-
-                    await interaction.reply({
-                        content: `An error occured. Please try again.`
-                    })
-                    return;
                 }
             }
 
             case 'check': {
-                if (daily) {
-                    if (daily.lastDaily.toISOString() !== currentDate.toISOString()) {
+                if (!daily) {
+                    let embed = new EmbedBuilder()
+                        .setTitle(`Daily Mora`)
+                        .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
+                        .setFooter({ text: 'Daily check' })
+                        .setColor('#FFBEEF')
+                        .setTimestamp();
+
+                    interaction.reply({
+                        embeds: [embed]
+                    });
+
+                    return;
+                } else {
+                    if (!daily.lastDaily || daily.lastDaily.toISOString() !== currentDate.toISOString()) {
                         let embed = new EmbedBuilder()
                             .setTitle(`Daily Mora`)
                             .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
@@ -150,19 +171,6 @@ module.exports = {
 
                         return;
                     }
-                } else {
-                    daily = new TimeSchema({
-                        guild: interaction.guildId,
-                        user: interaction.user.username,
-                        lastDaily: currentDate,
-                        nextDaily: nextDailyDate
-                    });
-                    await daily.save();
-
-                    await interaction.reply({
-                        content: `An error occured. Please try again.`
-                    })
-                    return;
                 }
             }
         }

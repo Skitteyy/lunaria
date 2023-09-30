@@ -21,15 +21,13 @@ client.on('messageCreate', async (message) => {
         user: message.author.username
     });
 
-    const getBalance = await EconomySchema.find({
+    const balance = await EconomySchema.findOne({
         guild: message.guildId,
         user: message.author.username,
         balance: {
             $exists: true
         }
     });
-
-    const balance = getBalance.map(doc => doc.balance)
 
     if (cooldown.includes(message.author.id)) return;
 
@@ -39,7 +37,7 @@ client.on('messageCreate', async (message) => {
 
     const randomAmount = Math.floor(Math.random() * 10) + 1;
 
-    const updatedBalance = balance + randomAmount;
+    const updatedBalance = Math.floor(economy.balance + randomAmount);
 
     await EconomySchema.find({
         guild: message.guildId,
@@ -139,6 +137,8 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
         guild: newMember.guild.id
     });
 
+    if (newMember.client.user.bot) return;
+
     const channel = newMember.guild.channels.cache.get(data.logChannel);
 
     if (oldMember.roles.cache.size > newMember.roles.cache.size) {
@@ -192,15 +192,45 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
             embeds: [
                 new EmbedBuilder()
                     .setTitle('Nickname updated')
-                    .addFields(
-                        { name: 'Old Nickname:', value: `${oldMember.nickname || oldMember.user}` },
-                        { name: 'New Nickname:', value: `${newMember.nickname || newMember.user}` }
-                    )
+                    .setDescription(`Old Nickname: ${oldMember.nickname || oldMember.user.username}\nNew Nickname: ${newMember.nickname || newMember.user.username}`)
                     .setFooter({ iconURL: `${oldMember.displayAvatarURL()}`, text: `${oldMember.user.username}` })
                     .setTimestamp()
                     .setColor('Green')
             ]
         });
+    }
+
+    if (oldMember.avatarURL() !== newMember.avatarURL()) {
+        if (!channel) return;
+
+        channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('Avatar updated')
+                    .setDescription(`<@${newMember.id}>`)
+                    .setImage(newMember.displayAvatarURL({
+                        size: 1024
+                    }))
+                    .setFooter({ iconURL: `${newMember.displayAvatarURL()}`, text: `${newMember.user.username}` })
+                    .setTimestamp()
+                    .setColor('Blue')
+            ]
+        })
+    }
+
+    if (oldMember.user.username !== newMember.user.username) {
+        if (!channel) return;
+
+        channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('Username updated')
+                    .setDescription(`Old username: ${oldMember.user.username}\nNew username: ${newMember.user.username}`)
+                    .setFooter({ iconURL: `${newMember.displayAvatarURL()}`, text: `${newMember.user.username}` })
+                    .setTimestamp()
+                    .setColor('Blue')
+            ]
+        })
     }
 });
 
@@ -262,4 +292,23 @@ client.on('guildMemberAdd', async member => {
                 .setColor('Green')
         ]
     })
+
+    if (member.guild.id === '1087439373458485299') {
+        const channel = member.guild.channels.cache.get('1087470137818488903');
+
+        await channel.send({
+            embeds: [
+                new EmbedBuilder()
+                    .setAuthor(member.avatarURL())
+                    .setTitle('New Member!')
+                    .setThumbnail(member.displayAvatarURL({
+                        size: 1024
+                    }))
+                    .setDescription(`Welcome to ${member.guild.name}, <@${member.user.id}>!\nMake sure to check out <#1087472089134538792>, <#1145011289106694194> and verify at <#1116818295170011266>.\nEnjoy your stay!`)
+                    .setFooter({ iconURL: member.guild.iconURL(), text: `${member.guild.name}` })
+                    .setTimestamp()
+                    .setColor('#FFBEEF')
+            ]
+        })
+    } else return;
 });
