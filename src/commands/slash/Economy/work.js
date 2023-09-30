@@ -91,7 +91,7 @@ module.exports = {
                     .setTitle('You work your job')
                     .setDescription(jobDescription)
                     .setFooter({ text: 'Job work' })
-                    .setColor('#FFBEEF');
+                    .setColor('#White');
         
                 await interaction.reply({
                     embeds: [embed]

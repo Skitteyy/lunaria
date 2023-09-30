@@ -47,7 +47,7 @@ module.exports = {
                             .setDescription(`log channel has been set to <#${channel}>.`)
                             .setFooter({ text: 'Set log channel' })
                             .setTimestamp()
-                            .setColor('#FFBEEF')
+                            .setColor('#White')
                     ]
                 })
 

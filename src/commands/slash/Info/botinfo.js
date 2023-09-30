@@ -28,7 +28,7 @@ module.exports = {
                     )
                     .setFooter({ text: 'Bot Information' })
                     .setTimestamp()
-                    .setColor('#FFBEEF')
+                    .setColor('#White')
             ]
         })
     }

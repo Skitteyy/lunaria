@@ -46,7 +46,7 @@ module.exports = {
                                 .setDescription(`${amount - 1} messages were deleted.`)
                                 .setFooter({ text: 'Clear messages' })
                                 .setTimestamp()
-                                .setColor('#FFBEEF')
+                                .setColor('#White')
                         ]
                     })
                 }, 5000)

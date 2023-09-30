@@ -46,7 +46,7 @@ module.exports = {
                             { name: 'Computer', value: `A tool used by streamers to stream stuff on the internet. Price: 300 Mora ${Mora}` }
                         )
                         .setFooter({ text: 'Items list' })
-                        .setColor('#FFBEEF');
+                        .setColor('#White');
 
                     await interaction.reply({
                         embeds: [embed]
@@ -74,7 +74,7 @@ module.exports = {
                         .setTitle(`Select an item to buy`)
                         .setDescription('Please select an item.')
                         .setFooter({ text: 'Shop buy' })
-                        .setColor('#FFBEEF');
+                        .setColor('#White');
 
                     const selectMenu = new StringSelectMenuBuilder()
                         .setCustomId('itembuy')
@@ -169,7 +169,7 @@ module.exports = {
                             .setTitle(`Success!`)
                             .setDescription(`You successfully bought a ${buyItem} for 300 Mora ${Mora}!`)
                             .setFooter({ text: 'Shop buy' })
-                            .setColor('#FFBEEF');
+                            .setColor('#White');
 
                         await interaction.editReply({
                             embeds: [embed2],
@@ -192,7 +192,7 @@ module.exports = {
                         .setTitle(`Sell an item`)
                         .setDescription('Please type the name of the item you want to sell in the text box below and specify the quantity (e.g., `apple 5`).')
                         .setFooter({ text: 'Shop sell' })
-                        .setColor('#FFBEEF');
+                        .setColor('#White');
             
                     await interaction.reply({
                         embeds: [embed],
@@ -235,7 +235,7 @@ module.exports = {
                                     .setTitle(`Success!`)
                                     .setDescription(`You successfully sold ${quantity} ${typedItem}(s) for ${totalMoney} Mora ${Mora}!`)
                                     .setFooter({ text: 'Shop sell' })
-                                    .setColor('#FFBEEF');
+                                    .setColor('#White');
             
                                 interaction.followUp({
                                     embeds: [embed2]

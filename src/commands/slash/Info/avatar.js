@@ -28,7 +28,7 @@ module.exports = {
                     ))
                     .setFooter({ text: 'User Avatar' })
                     .setTimestamp()
-                    .setColor('#FFBEEF')
+                    .setColor('#White')
             ]
         })
     }

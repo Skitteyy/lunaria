@@ -71,7 +71,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Mora ${Mora} on heads. The coin landed on heads!\nResult: + ${amount} Mora ${Mora}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#FFBEEF');
+                    .setColor('#White');
 
                 await interaction.reply({
                     embeds: [embed]
@@ -91,7 +91,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Mora ${Mora} on heads. The coin landed on tails!\nResult: - ${amount} Mora ${Mora}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#FFBEEF');
+                    .setColor('#White');
 
                 await interaction.reply({
                     embeds: [embed]
@@ -113,7 +113,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Mora ${Mora} on tails. The coin landed on heads!\nResult: - ${amount} Mora ${Mora}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#FFBEEF');
+                    .setColor('#White');
 
                 await interaction.reply({
                     embeds: [embed]
@@ -133,7 +133,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
                     .setDescription(`You bet ${amount} Mora ${Mora} on tails. The coin landed on tails!\nResult: + ${amount} Mora ${Mora}`)
                     .setFooter({ text: 'Coinflip' })
-                    .setColor('#FFBEEF');
+                    .setColor('#White');
 
                 await interaction.reply({
                     embeds: [embed]

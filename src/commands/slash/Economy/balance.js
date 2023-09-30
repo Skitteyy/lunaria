@@ -36,7 +36,7 @@ module.exports = {
                 .setTitle(`${user}'s Balance`)
                 .setDescription(`${user} doesn't have any Mora ${Mora}!`)
                 .setFooter({ text: 'Balance' })
-                .setColor('#FFBEEF')
+                .setColor('#White')
 
             interaction.reply({
                 embeds: [embed]
@@ -46,7 +46,7 @@ module.exports = {
                 .setTitle(`${user}'s Balance`)
                 .setDescription(`${user} has ${economy.balance} Mora ${Mora}!`)
                 .setFooter({ text: 'Balance' })
-                .setColor('#FFBEEF')
+                .setColor('#White')
 
             interaction.reply({
                 embeds: [embed]
