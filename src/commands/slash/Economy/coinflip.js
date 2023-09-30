@@ -25,7 +25,7 @@ module.exports = {
      */
     run: async (client, interaction, args) => {
 
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
 
         let economy = await EconomySchema.findOne({
             guild: interaction.guildId,
@@ -46,14 +46,14 @@ module.exports = {
 
         if (amount > balance) {
             interaction.reply({
-                content: `Your current balance is ${balance} Mora ${Mora}. You can't bet ${amount} Mora ${Mora}.`
+                content: `Your current balance is ${balance} Moonshard ${Moonshard}. You can't bet ${amount} Moonshard ${Moonshard}.`
             })
             return;
         }
 
         if (amount <= 0 || amount > 100000) {
             interaction.reply({
-                content: `The amount should be between 1 and 100000 Mora ${Mora}.`
+                content: `The amount should be between 1 and 100000 Moonshard ${Moonshard}.`
             })
             return;
         }
@@ -69,7 +69,7 @@ module.exports = {
             if (randomOutcome === 0) {
                 let embed = new EmbedBuilder()
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
-                    .setDescription(`You bet ${amount} Mora ${Mora} on heads. The coin landed on heads!\nResult: + ${amount} Mora ${Mora}`)
+                    .setDescription(`You bet ${amount} Moonshard ${Moonshard} on heads. The coin landed on heads!\nResult: + ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
                     .setColor('#White');
 
@@ -89,7 +89,7 @@ module.exports = {
             if (randomOutcome === 1) {
                 let embed = new EmbedBuilder()
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
-                    .setDescription(`You bet ${amount} Mora ${Mora} on heads. The coin landed on tails!\nResult: - ${amount} Mora ${Mora}`)
+                    .setDescription(`You bet ${amount} Moonshard ${Moonshard} on heads. The coin landed on tails!\nResult: - ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
                     .setColor('#White');
 
@@ -111,7 +111,7 @@ module.exports = {
             if (randomOutcome === 0) {
                 let embed = new EmbedBuilder()
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
-                    .setDescription(`You bet ${amount} Mora ${Mora} on tails. The coin landed on heads!\nResult: - ${amount} Mora ${Mora}`)
+                    .setDescription(`You bet ${amount} Moonshard ${Moonshard} on tails. The coin landed on heads!\nResult: - ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
                     .setColor('#White');
 
@@ -131,7 +131,7 @@ module.exports = {
             if (randomOutcome === 1) {
                 let embed = new EmbedBuilder()
                     .setTitle(`${interaction.user.username} bets on a coinflip`)
-                    .setDescription(`You bet ${amount} Mora ${Mora} on tails. The coin landed on tails!\nResult: + ${amount} Mora ${Mora}`)
+                    .setDescription(`You bet ${amount} Moonshard ${Moonshard} on tails. The coin landed on tails!\nResult: + ${amount} Moonshard ${Moonshard}`)
                     .setFooter({ text: 'Coinflip' })
                     .setColor('#White');
 

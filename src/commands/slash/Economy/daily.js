@@ -6,7 +6,7 @@ const TimeSchema = require('../../../schemas/TimeSchema');
 module.exports = {
     structure: new SlashCommandBuilder()
         .setName('daily')
-        .setDescription('Claim your daily Mora!')
+        .setDescription('Claim your daily Moonshard!')
         .addStringOption(option =>
             option.setName('action')
                 .setDescription('choose an action')
@@ -21,7 +21,7 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
@@ -58,8 +58,8 @@ module.exports = {
                     }).save();
 
                     let embed = new EmbedBuilder()
-                        .setTitle(`Daily Mora`)
-                        .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
+                        .setTitle(`Daily Moonshard`)
+                        .setDescription(`Here is your daily 5000 Moonshard ${Moonshard}.`)
                         .setFooter({ text: 'Daily claim' })
                         .setColor('#White')
                         .setTimestamp();
@@ -79,8 +79,8 @@ module.exports = {
                 } else {
                     if (!daily.lastDaily || daily.lastDaily.toISOString() !== currentDate.toISOString()) {
                         let embed = new EmbedBuilder()
-                            .setTitle(`Daily Mora`)
-                            .setDescription(`Here is your daily 5000 Mora ${Mora}.`)
+                            .setTitle(`Daily Moonshard`)
+                            .setDescription(`Here is your daily 5000 Moonshard ${Moonshard}.`)
                             .setFooter({ text: 'Daily claim' })
                             .setColor('#White')
                             .setTimestamp();
@@ -104,8 +104,8 @@ module.exports = {
                         return;
                     } else {
                         let embed = new EmbedBuilder()
-                            .setTitle(`Daily Mora`)
-                            .setDescription(`You already claimed your daily Mora ${Mora} today. Use \`\`\`/daily check\`\`\` to see when you can claim it next.`)
+                            .setTitle(`Daily Moonshard`)
+                            .setDescription(`You already claimed your daily Moonshard ${Moonshard} today. Use \`\`\`/daily check\`\`\` to see when you can claim it next.`)
                             .setFooter({ text: 'Daily claim' })
                             .setColor('#White')
                             .setTimestamp();
@@ -122,8 +122,8 @@ module.exports = {
             case 'check': {
                 if (!daily) {
                     let embed = new EmbedBuilder()
-                        .setTitle(`Daily Mora`)
-                        .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
+                        .setTitle(`Daily Moonshard`)
+                        .setDescription(`Your daily Moonshard ${Moonshard} is ready to be claimed.`)
                         .setFooter({ text: 'Daily check' })
                         .setColor('#White')
                         .setTimestamp();
@@ -136,8 +136,8 @@ module.exports = {
                 } else {
                     if (!daily.lastDaily || daily.lastDaily.toISOString() !== currentDate.toISOString()) {
                         let embed = new EmbedBuilder()
-                            .setTitle(`Daily Mora`)
-                            .setDescription(`Your daily Mora ${Mora} is ready to be claimed.`)
+                            .setTitle(`Daily Moonshard`)
+                            .setDescription(`Your daily Moonshard ${Moonshard} is ready to be claimed.`)
                             .setFooter({ text: 'Daily check' })
                             .setColor('#White')
                             .setTimestamp();
@@ -159,8 +159,8 @@ module.exports = {
                         const remainingTime = `${hours}h ${minutes}m ${seconds}s`
 
                         let embed = new EmbedBuilder()
-                            .setTitle(`Daily Mora`)
-                            .setDescription(`Your daily Mora ${Mora} can be claimed again in ${remainingTime}.`)
+                            .setTitle(`Daily Moonshard`)
+                            .setDescription(`Your daily Moonshard ${Moonshard} can be claimed again in ${remainingTime}.`)
                             .setFooter({ text: 'Daily check' })
                             .setColor('#White')
                             .setTimestamp();

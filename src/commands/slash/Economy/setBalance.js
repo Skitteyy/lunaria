@@ -5,14 +5,14 @@ const EconomySchema = require('../../../schemas/EconomySchema');
 module.exports = {
     structure: new SlashCommandBuilder()
         .setName('setbalance')
-        .setDescription('Set an amount of Mora to a user\'s balance')
+        .setDescription('Set an amount of Moonshard to a user\'s balance')
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('User whose balance to set')
                 .setRequired(true))
         .addNumberOption(option =>
             option.setName('amount')
-                .setDescription('Amount of Mora to set to')
+                .setDescription('Amount of Moonshard to set to')
                 .setRequired(true)),
     /**
      * @param {ExtendedClient} client 
@@ -20,7 +20,7 @@ module.exports = {
      * @param {[]} args 
      */
     run: async (client, interaction, args) => {
-        const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+        const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
         const user = interaction.options.getUser('user').username;
         const amount = interaction.options.getNumber('amount');
 
@@ -53,8 +53,8 @@ module.exports = {
             })
 
             let embed = new EmbedBuilder()
-                .setTitle(`Set ${user}'s Mora!`)
-                .setDescription(`Successfully set ${user}'s Mora ${Mora} to ${amount}!`)
+                .setTitle(`Set ${user}'s Moonshard!`)
+                .setDescription(`Successfully set ${user}'s Moonshard ${Moonshard} to ${amount}!`)
                 .setFooter({ text: 'Set Balance' })
                 .setColor('#White')
 

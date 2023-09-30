@@ -113,7 +113,7 @@ module.exports = {
                 break;
 
             case 'leaderboard': {
-                const Mora = client.emojis.cache.find(emoji => emoji.id === '1133766383784710325')
+                const Moonshard = client.emojis.cache.find(emoji => emoji.id === '1157656742990204998')
 
                 const users = await EconomySchema.find({
                     guild: interaction.guildId,
@@ -129,7 +129,7 @@ module.exports = {
                     }).slice(0, 10);
 
                     const list = sorted.map((user, index) => {
-                        return `${index + 1}. ${user.user}: ${user.balance} ${Mora}`;
+                        return `${index + 1}. ${user.user}: ${user.balance} ${Moonshard}`;
                     }).join('\n');
 
                     let embed = new EmbedBuilder()
