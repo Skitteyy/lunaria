@@ -222,14 +222,14 @@ client.on('userUpdate', async (oldUser, newUser) => {
                 return;
             }
 
-            if (oldUser.avatarURL() !== newUser.avatarURL()) {
+            if (oldUser.displayAvatarURL() !== newUser.displayAvatarURL()) {
                 channel.send({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Avatar updated')
                             .setDescription(`<@${newUser.id}>`)
                             .setImage(newUser.displayAvatarURL({ size: 1024 }))
-                            .setFooter({ iconURL: newUser.displayAvatarURL(), text: newUser.username })
+                            .setFooter({ iconURL: `${newUser.displayAvatarURL()}`, text: `${newUser.username}` })
                             .setTimestamp()
                             .setColor('Blue')
                     ]
@@ -242,14 +242,14 @@ client.on('userUpdate', async (oldUser, newUser) => {
                         new EmbedBuilder()
                             .setTitle('Username updated')
                             .setDescription(`Old username: ${oldUser.username}\nNew username: ${newUser.username}`)
-                            .setFooter({ iconURL: newUser.displayAvatarURL(), text: newUser.username })
+                            .setFooter({ iconURL: `${newUser.displayAvatarURL()}`, text: `${newUser.username}` })
                             .setTimestamp()
                             .setColor('Blue')
                     ]
                 });
             }
         }
-    })
+    });
 });
 
 client.on('guildMemberRemove', async member => {
