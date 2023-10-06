@@ -330,3 +330,15 @@ client.on('guildMemberAdd', async member => {
         })
     } else return;
 });
+
+client.once('ready', () => {
+    const guild = client.guilds.cache.get('1087439373458485299');
+    const channel = guild.channels.cache.get('1159874877726134442')
+
+    if (!guild) return;
+    if (!channel) return;
+
+    setInterval(async () => {
+        await channel.setName(`Members: ${guild.memberCount}`)
+    }, 5 * 1000);
+});
