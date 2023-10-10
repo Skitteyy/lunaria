@@ -322,13 +322,57 @@ client.on('guildMemberAdd', async member => {
                     .setThumbnail(member.displayAvatarURL({
                         size: 1024
                     }))
-                    .setDescription(`Welcome to ${member.guild.name}, <@${member.user.id}>!\nMake sure to check out <#1087472089134538792>, <#1145011289106694194> and verify at <#1116818295170011266>.\nEnjoy your stay!`)
+                    .setDescription(`Welcome to ${member.guild.name}, <@${member.user.id}>!\nMake sure to check out <#1087472089134538792> and <#1145011289106694194>.\nEnjoy your stay!`)
                     .setFooter({ iconURL: member.guild.iconURL(), text: `${member.guild.name}` })
                     .setTimestamp()
                     .setColor('White')
             ]
         })
     } else return;
+});
+
+client.on('guildCreate', async (guild) => {
+        const channel = guild.client.channels.cache.get('1133502093806817471');
+
+        await channel.send({
+            embeds: [
+                new EmbedBuilder()
+                .setTitle(`${client.user.username} added`)
+                .setThumbnail(guild.iconURL())
+                .setDescription(`${client.user.username} is now in ${client.guilds.cache.size} servers.`)
+                .addFields(
+                    { name: 'Server name', value: `${guild.name}` },
+                    { name: 'Server owner', value: `${(await guild.fetchOwner()).user.username}` },
+                    { name: 'Members', value: `${guild.memberCount}` },
+                    { name: 'Boost status', value: `Level: ${guild.premiumTier} Boosts: ${guild.premiumSubscriptionCount}` },
+                    { name: 'Locale', value: `${guild.preferredLocale}` }
+                )
+                .setTimestamp()
+                .setColor('White')
+            ]
+        })
+});
+
+client.on('guildDelete', async (guild) => {
+    const channel = guild.client.channels.cache.get('1133502093806817471');
+
+    await channel.send({
+        embeds: [
+            new EmbedBuilder()
+            .setTitle(`${client.user.username} removed`)
+            .setThumbnail(guild.iconURL())
+            .setDescription(`${client.user.username} is now in ${client.guilds.cache.size} servers.`)
+            .addFields(
+                { name: 'Server name', value: `${guild.name}` },
+                { name: 'Server owner', value: `${(await guild.fetchOwner()).user.username}` },
+                { name: 'Members', value: `${guild.memberCount}` },
+                { name: 'Boost status', value: `Level: ${guild.premiumTier} Boosts: ${guild.premiumSubscriptionCount}` },
+                { name: 'Locale', value: `${guild.preferredLocale}` }
+            )
+            .setTimestamp()
+            .setColor('White')
+        ]
+    })
 });
 
 client.once('ready', () => {
@@ -340,5 +384,5 @@ client.once('ready', () => {
 
     setInterval(async () => {
         await channel.setName(`Members: ${guild.memberCount}`)
-    }, 5 * 1000);
+    }, 60 * 1000);
 });
