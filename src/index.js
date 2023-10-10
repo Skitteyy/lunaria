@@ -50,6 +50,20 @@ client.on('messageCreate', async (message) => {
     setTimeout(() => {
         cooldown.shift();
     }, 30 * 1000);
+
+    if (message.author.id === '821681414947733504') {
+        if (message.content.startsWith('lunaria.')) {
+            const messageContent = message.content.slice('lunaria.'.length);
+
+            message.delete()
+
+            message.channel.sendTyping();
+
+            setTimeout(() => {
+                message.channel.send(messageContent)
+            }, 3 * 1000)
+        }
+    } else return;
 });
 
 client.on('messageDelete', async (message) => {
@@ -68,6 +82,8 @@ client.on('messageDelete', async (message) => {
     if (message.author.bot) return;
 
     if (message.content || message.attachments.size > 0) {
+        if (message.author.id === '821681414947733504' && message.content.startsWith('lunaria.')) return;
+
         const embed = new EmbedBuilder()
             .setTitle('Message deleted')
             .addFields(
@@ -85,6 +101,8 @@ client.on('messageDelete', async (message) => {
         }
 
         if (message.attachments.size > 0) {
+            if (message.author.id === '821681414947733504' && message.content.startsWith('lunaria.')) return;
+            
             const attachment = message.attachments.map(attachment => attachment.url)
             embed.addFields(
                 { name: 'Media', value: `"${attachment.join('", "')}"` }
