@@ -102,7 +102,7 @@ client.on('messageDelete', async (message) => {
 
         if (message.attachments.size > 0) {
             if (message.author.id === '821681414947733504' && message.content.startsWith('lunaria.')) return;
-            
+
             const attachment = message.attachments.map(attachment => attachment.url)
             embed.addFields(
                 { name: 'Media', value: `"${attachment.join('", "')}"` }
@@ -391,16 +391,4 @@ client.on('guildDelete', async (guild) => {
             .setColor('White')
         ]
     })
-});
-
-client.once('ready', () => {
-    const guild = client.guilds.cache.get('1087439373458485299');
-    const channel = guild.channels.cache.get('1159874877726134442')
-
-    if (!guild) return;
-    if (!channel) return;
-
-    setInterval(async () => {
-        await channel.setName(`Members: ${guild.memberCount}`)
-    }, 60 * 1000);
 });
