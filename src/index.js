@@ -57,11 +57,7 @@ client.on('messageCreate', async (message) => {
 
             message.delete()
 
-            message.channel.sendTyping();
-
-            setTimeout(() => {
-                message.channel.send(messageContent)
-            }, 3 * 1000)
+            message.channel.send(messageContent);
         }
     } else return;
 });
